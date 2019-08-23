@@ -41,7 +41,7 @@ namespace PullConnector
         {
             Console.WriteLine("Connect");
             var channel = new Channel("0.0.0.0", 50053, ChannelCredentials.Insecure);
-            var client = new Dolittle.TimeSeries.Runtime.Connectors.Grpc.PullConnectors.PullConnectorsClient(channel);
+            var client = new PullConnectors.PullConnectorsClient(channel);
             var metadata = new Metadata
             { { "clientId", Guid.NewGuid().ToString() }
             };
