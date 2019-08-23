@@ -5,5 +5,10 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <AssemblyName>Dolittle.TimeSeries.Connectors</AssemblyName>
     </PropertyGroup>
-    
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.TimeSeries.Runtime.Connectors.Grpc" Version="1.*" />
+        <PackageReference Include="Grpc.Core" Version="1.22.0" />
+    </ItemGroup>
+
 </Project>
