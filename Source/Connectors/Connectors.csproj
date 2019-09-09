@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Dolittle.SDK.Clients" Version="3.*" />
         <PackageReference Include="Dolittle.TimeSeries.Runtime.Connectors.Grpc" Version="1.*" />
-        <PackageReference Include="Grpc.Core" Version="1.22.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../TimeSeries/TimeSeries.csproj"/>
     </ItemGroup>
 
 </Project>

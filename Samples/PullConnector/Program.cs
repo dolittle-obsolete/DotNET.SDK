@@ -1,60 +1,35 @@
-﻿using System;
-using System.Threading;
+﻿/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Dolittle. All rights reserved.
+ *  Licensed under the MIT License. See LICENSE in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Dolittle.TimeSeries.Runtime.Connectors.Grpc;
-using Grpc.Core;
-using Microsoft.Extensions.Hosting;
+using Dolittle.Clients;
+using Dolittle.TimeSeries;
+using Dolittle.TimeSeries.Connectors;
 
 namespace PullConnector
 {
-    class Program
+    public class MyConnector : IAmAPullConnector
     {
-        static void HandleStreams(AsyncDuplexStreamingCall<PullConnectorGetData, PullConnectorData> stream)
+        public Source Name => "MyConnector";
+
+        public IEnumerable<TagWithData> GetAllData()
         {
-            Task.Run(async() =>
-            {
-                Console.WriteLine("Wait for messages");
-                while (await stream.ResponseStream.MoveNext(CancellationToken.None))
-                {
-                    Console.WriteLine("Message received on client");
-                    
-                }
-            });
-
-            Task.Run(async() =>
-            {
-                for( ;; )
-                {
-                    Console.WriteLine("Write message to server");
-                    await stream.RequestStream.WriteAsync(new Dolittle.TimeSeries.Runtime.Connectors.Grpc.PullConnectorGetData());
-                    //await stream.RequestStream.CompleteAsync();
-                    await Task.Delay(1000);
-                }
-
-            });
-
-
+            throw new System.NotImplementedException();
         }
 
+        public object GetData(Tag tag)
+        {
+            throw new System.NotImplementedException();
+        }
+    }
 
+    class Program
+    {
         static async Task Main(string[] args)
         {
-            Console.WriteLine("Connect");
-            var channel = new Channel("0.0.0.0", 50053, ChannelCredentials.Insecure);
-            var client = new PullConnectors.PullConnectorsClient(channel);
-            var metadata = new Metadata
-            { { "clientId", Guid.NewGuid().ToString() }
-            };
-
-            Console.WriteLine("Register");
-            var stream = client.Register(metadata);
-            HandleStreams(stream);
-
-            var hostBuilder = new HostBuilder();
-            var host = hostBuilder.Build();
-
-            await host.RunAsync();
-
+            await Bootloader.Start();
         }
     }
 }
