@@ -14,5 +14,12 @@ namespace Dolittle.TimeSeries.Connectors
         /// Register all pull connectors
         /// </summary>
         void Register();
+
+        /// <summary>
+        /// Get a <see cref="IAmAPullConnector"/> by its <see cref="ConnectorId"/>
+        /// </summary>
+        /// <param name="connectorId"><see cref="ConnectorId"/> representing the connector</param>
+        /// <returns>Instance of <see cref="IAmAPullConnector"/></returns>
+        IAmAPullConnector GetById(ConnectorId connectorId);
     }
 }

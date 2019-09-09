@@ -17,15 +17,10 @@ namespace Dolittle.TimeSeries.Connectors
         Source Name {  get; }
 
         /// <summary>
-        /// Connect to the system and return
+        /// Pull data from given tags
         /// </summary>
-        /// <param name="tag"><see cref="Tag"/> to get for</param>
+        /// <param name="tags">Collection of <see cref="Tag">tags</see> to get for</param>
         /// <returns>The data for the <see cref="Tag"/></returns>
-        object GetData(Tag tag);
-
-        /// <summary>
-        /// Get all available data for all <see cref="Tag">tags</see>
-        /// </summary>
-        IEnumerable<TagWithData> GetAllData();
+        IEnumerable<TagWithData> Pull(IEnumerable<Tag> tags);
     }
 }

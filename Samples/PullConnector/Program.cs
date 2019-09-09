@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Dolittle.Clients;
+using Dolittle.Logging;
 using Dolittle.TimeSeries;
 using Dolittle.TimeSeries.Connectors;
 
@@ -12,16 +13,19 @@ namespace PullConnector
 {
     public class MyConnector : IAmAPullConnector
     {
+        readonly ILogger _logger;
+
+        public MyConnector(ILogger logger)
+        {
+            _logger = logger;
+        }
+        
         public Source Name => "MyConnector";
 
-        public IEnumerable<TagWithData> GetAllData()
+        public IEnumerable<TagWithData> Pull(IEnumerable<Tag> tags)
         {
-            throw new System.NotImplementedException();
-        }
-
-        public object GetData(Tag tag)
-        {
-            throw new System.NotImplementedException();
+            _logger.Information("Pulling tag data");
+            return null;
         }
     }
 

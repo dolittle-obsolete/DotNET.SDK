@@ -39,6 +39,12 @@ namespace Dolittle.TimeSeries.Connectors
         }
 
         /// <inheritdoc/>
+        public IAmAPullConnector GetById(ConnectorId connectorId)
+        {
+            return _connectors[connectorId];
+        }
+
+        /// <inheritdoc/>
         public void Register()
         {
             _connectors.ForEach(_ =>
