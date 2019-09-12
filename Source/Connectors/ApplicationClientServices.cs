@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using Dolittle.Clients;
 using Dolittle.Services;
-using Dolittle.TimeSeries.Runtime.Connectors.Client.Grpc;
+using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
 
 namespace Dolittle.TimeSeries.Connectors
 {

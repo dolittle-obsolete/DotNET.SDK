@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -21,6 +22,6 @@ namespace Dolittle.TimeSeries.Connectors
         /// </summary>
         /// <param name="tags">Collection of <see cref="Tag">tags</see> to get for</param>
         /// <returns>The data for the <see cref="Tag"/></returns>
-        IEnumerable<TagWithData> Pull(IEnumerable<Tag> tags);
+        Task<IEnumerable<TagDataPoint>> Pull(IEnumerable<Tag> tags);
     }
 }

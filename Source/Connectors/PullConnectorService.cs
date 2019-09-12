@@ -4,10 +4,10 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Threading.Tasks;
-using Dolittle.TimeSeries.Runtime.Connectors.Client.Grpc;
-using Google.Protobuf;
 using Grpc.Core;
-using static Dolittle.TimeSeries.Runtime.Connectors.Client.Grpc.PullConnector;
+using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
+using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client.PullConnector;
+using System.Linq;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -28,12 +28,16 @@ namespace Dolittle.TimeSeries.Connectors
         }
 
         /// <inheritdoc/>
-        public override Task<PullResult> Pull(PullRequest request, ServerCallContext context)
+        public override async Task<PullResult> Pull(PullRequest request, ServerCallContext context)
         {           
             var connector = _connectors.GetById(new Guid(request.ConnectorId.Value.ToByteArray()));
-            connector.Pull(null);
+            var dataPoints = await connector.Pull(request.Tags.Select(_ => (Tag)_));
+            var result = new PullResult();
+            result.Data.Add(dataPoints.Select(_ => new DataTypes.TagDataPoint {
+                Tag = _.Tag,
+            }));
             
-            return Task.FromResult(new PullResult());            
+            return result;
         }
     }
 }

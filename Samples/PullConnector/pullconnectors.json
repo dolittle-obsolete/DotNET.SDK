@@ -1,0 +1,10 @@
+{
+    "MyConnector": {
+        "interval": 2000,
+        "tags": [
+            "first",
+            "second",
+            "third"
+        ]
+    }
+}

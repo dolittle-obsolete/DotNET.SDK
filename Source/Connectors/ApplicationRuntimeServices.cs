@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Clients;
-using static Dolittle.TimeSeries.Runtime.Connectors.Server.Grpc.PullConnectors;
+using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server.PullConnectors;
 
 namespace Dolittle.TimeSeries.Connectors
 {
