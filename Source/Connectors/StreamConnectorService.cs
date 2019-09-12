@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
@@ -37,7 +38,7 @@ namespace Dolittle.TimeSeries.Connectors
         }
 
         /// <inheritdoc/>
-        public override async Task Connect(StreamRequest request, IServerStreamWriter<DataTypes.TagDataPoint> responseStream, ServerCallContext context)
+        public override async Task Connect(StreamRequest request, IServerStreamWriter<StreamTagDataPoints> responseStream, ServerCallContext context)
         {
             var id = request.ConnectorId.ToGuid();
             _logger.Information($"Connect '{id}'");
@@ -46,12 +47,15 @@ namespace Dolittle.TimeSeries.Connectors
 
             var configuration = _configuration[connector.Name];
 
-            connector.DataReceived += async (dataPoint) =>
+            connector.DataReceived += async (dataPoints) =>
             {
-                await responseStream.WriteAsync(new DataTypes.TagDataPoint
+                var streamTagDataPoints = new StreamTagDataPoints();
+                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataTypes.TagDataPoint
                 {
-                    Tag = dataPoint.Tag
-                });
+                    Tag = _.Tag
+                }));
+
+                await responseStream.WriteAsync(streamTagDataPoints);
             };
 
             await connector.Connect(configuration);

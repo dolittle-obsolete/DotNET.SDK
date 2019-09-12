@@ -38,13 +38,9 @@ namespace PullConnector
                         Tag = _,
                         Value = (float)_random.NextDouble()
                     });
+                    await DataReceived(dataPoints);
                     
-                    foreach( var dataPoint in dataPoints )
-                    {
-                        await DataReceived(dataPoint);
-
-                        await Task.Delay(100);
-                    }
+                    await Task.Delay(100);
                 }
             });
         }
