@@ -9,20 +9,19 @@ using Dolittle.Configuration;
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Represents the configuration for <see cref="IPullConnectors"/>
+    /// Represents the configuration for <see cref="IStreamConnectors"/>
     /// </summary>
-    [Name("pullconnectors")]
-    public class PullConnectorsConfiguration : 
-        ReadOnlyDictionary<Source, PullConnectorConfiguration>,
+    [Name("streamconnectors")]
+    public class StreamConnectorsConfiguration : 
+        ReadOnlyDictionary<Source, StreamConnectorConfiguration>,
         IConfigurationObject
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="PullConnectorsConfiguration"/>
+        /// Initializes a new instance of <see cref="StreamConnectorsConfiguration"/>
         /// </summary>
         /// <param name="sources">Configuration instance - passed along to be made immutable</param>
-        public PullConnectorsConfiguration(IDictionary<Source, PullConnectorConfiguration> sources) : base(sources)
+        public StreamConnectorsConfiguration(IDictionary<Source, StreamConnectorConfiguration> sources) : base(sources)
         {
         }
     }
-
 }

@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Booting;
+using Dolittle.Services;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -12,23 +13,27 @@ namespace Dolittle.TimeSeries.Connectors
     public class ConnectorsBootProcedure : ICanPerformBootProcedure
     {
         readonly IPullConnectors _pullConnectors;
+        private readonly IStreamConnectors _streamConnectors;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConnectorsBootProcedure"/>
         /// </summary>
         /// <param name="pullConnectors">System for <see cref="IPullConnectors"/></param>
-        public ConnectorsBootProcedure(IPullConnectors pullConnectors)
+        /// <param name="streamConnectors">System for <see cref="IStreamConnectors"/></param>
+        public ConnectorsBootProcedure(IPullConnectors pullConnectors, IStreamConnectors streamConnectors)
         {
             _pullConnectors = pullConnectors;
+            _streamConnectors = streamConnectors;
         }        
 
         /// <inheritdoc/>
-        public bool CanPerform() => true;
+        public bool CanPerform() => EndpointsBootProcedure.HostsReady;
 
         /// <inheritdoc/>
         public void Perform()
         {
             _pullConnectors.Register();
+            _streamConnectors.Register();
         }
     }
 }

@@ -8,6 +8,7 @@ using Grpc.Core;
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client.PullConnector;
 using System.Linq;
+using Dolittle.Protobuf;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -19,9 +20,9 @@ namespace Dolittle.TimeSeries.Connectors
         readonly IPullConnectors _connectors;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="PullConnectorService"/>
         /// </summary>
-        /// <param name="connectors"></param>
+        /// <param name="connectors">System for <see cref="IPullConnectors"/></param>
         public PullConnectorService(IPullConnectors connectors)
         {
             _connectors = connectors;
@@ -30,7 +31,7 @@ namespace Dolittle.TimeSeries.Connectors
         /// <inheritdoc/>
         public override async Task<PullResult> Pull(PullRequest request, ServerCallContext context)
         {           
-            var connector = _connectors.GetById(new Guid(request.ConnectorId.Value.ToByteArray()));
+            var connector = _connectors.GetById(request.ConnectorId.ToGuid());
             var dataPoints = await connector.Pull(request.Tags.Select(_ => (Tag)_));
             var result = new PullResult();
             result.Data.Add(dataPoints.Select(_ => new DataTypes.TagDataPoint {

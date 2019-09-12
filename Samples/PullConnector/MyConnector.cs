@@ -23,7 +23,7 @@ namespace PullConnector
             _random = new Random();
         }
         
-        public Source Name => "MyConnector";
+        public Source Name => "MyPullConnector";
 
         public Task<IEnumerable<TagDataPoint>> Pull(IEnumerable<Tag> tags)
         {

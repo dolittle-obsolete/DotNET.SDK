@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{2D50
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PullConnector", "Samples\PullConnector\PullConnector.csproj", "{A6694D74-5581-41B9-A187-A6CEE0A86E9D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamConnector", "Samples\StreamConnector\StreamConnector.csproj", "{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,9 +50,22 @@ Global
 		{A6694D74-5581-41B9-A187-A6CEE0A86E9D}.Release|x64.Build.0 = Release|Any CPU
 		{A6694D74-5581-41B9-A187-A6CEE0A86E9D}.Release|x86.ActiveCfg = Release|Any CPU
 		{A6694D74-5581-41B9-A187-A6CEE0A86E9D}.Release|x86.Build.0 = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|x64.Build.0 = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Debug|x86.Build.0 = Debug|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|x64.ActiveCfg = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|x64.Build.0 = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|x86.ActiveCfg = Release|Any CPU
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{36D49417-B145-4214-8521-59DA11FA1B2A} = {5F4E60C3-D761-4FD1-8665-6547F4CBBA4C}
 		{A6694D74-5581-41B9-A187-A6CEE0A86E9D} = {2D500C60-BD34-409D-8FCE-57EA6E9F5138}
+		{C55EBB0B-DEDC-4DBE-9EAA-068F7434A22A} = {2D500C60-BD34-409D-8FCE-57EA6E9F5138}
 	EndGlobalSection
 EndGlobal

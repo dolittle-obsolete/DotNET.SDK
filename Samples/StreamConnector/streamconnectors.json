@@ -1,6 +1,5 @@
 {
-    "MyPullConnector": {
-        "interval": 2000,
+    "MyStreamConnector": {
         "tags": [
             "first",
             "second",
