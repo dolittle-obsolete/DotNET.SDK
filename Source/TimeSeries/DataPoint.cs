@@ -16,6 +16,12 @@ namespace Dolittle.TimeSeries
         public TimeSeries TimeSeries {  get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="Origin"/> of the <see cref="DataPoint{T}"/>
+        /// </summary>
+        /// <value></value>
+        public Origin Origin { get; set; }
+
+        /// <summary>
         /// Gets or sets the value for the <see cref="DataPoint{T}"/>
         /// </summary>
         public T Value {  get; set; }
