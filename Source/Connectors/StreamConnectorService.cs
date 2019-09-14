@@ -50,7 +50,7 @@ namespace Dolittle.TimeSeries.Connectors
             connector.DataReceived += async (dataPoints) =>
             {
                 var streamTagDataPoints = new StreamTagDataPoints();
-                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataTypes.TagDataPoint
+                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataPoints.TagDataPoint
                 {
                     Tag = _.Tag
                 }));

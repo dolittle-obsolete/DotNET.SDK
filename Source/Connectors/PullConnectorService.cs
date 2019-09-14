@@ -34,7 +34,7 @@ namespace Dolittle.TimeSeries.Connectors
             var connector = _connectors.GetById(request.ConnectorId.ToGuid());
             var dataPoints = await connector.Pull(request.Tags.Select(_ => (Tag)_));
             var result = new PullResult();
-            result.Data.Add(dataPoints.Select(_ => new DataTypes.TagDataPoint {
+            result.Data.Add(dataPoints.Select(_ => new DataPoints.TagDataPoint {
                 Tag = _.Tag,
             }));
             
