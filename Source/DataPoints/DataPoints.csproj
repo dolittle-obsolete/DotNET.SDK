@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Build/MSBuild/default.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <AssemblyName>Dolittle.TimeSeries.DataPoints</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dolittle.SDK.Clients" Version="3.*" />
+        <PackageReference Include="Dolittle.Protobuf" Version="3.*" />
+        <PackageReference Include="Dolittle.Specifications" Version="3.*" />
+        <PackageReference Include="Dolittle.TimeSeries.DataTypes" Version="1.*" />
+        <PackageReference Include="Dolittle.TimeSeries.Runtime.DataPoints.Grpc" Version="1.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="../TimeSeries/TimeSeries.csproj"/>
+    </ItemGroup>
+
+</Project>
