@@ -13,7 +13,7 @@ namespace Dolittle.TimeSeries.Connectors
     public class ConnectorsBootProcedure : ICanPerformBootProcedure
     {
         readonly IPullConnectors _pullConnectors;
-        private readonly IStreamConnectors _streamConnectors;
+        readonly IStreamConnectors _streamConnectors;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConnectorsBootProcedure"/>
@@ -27,7 +27,7 @@ namespace Dolittle.TimeSeries.Connectors
         }        
 
         /// <inheritdoc/>
-        public bool CanPerform() => EndpointsBootProcedure.HostsReady;
+        public bool CanPerform() => EndpointsBootProcedure.EndpointsReady;
 
         /// <inheritdoc/>
         public void Perform()
