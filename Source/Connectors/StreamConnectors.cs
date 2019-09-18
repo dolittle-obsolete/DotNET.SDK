@@ -77,7 +77,7 @@ namespace Dolittle.TimeSeries.Connectors
                 }
                 else
                 {
-                    _logger.Warning($"Mussing configuration for '{_.Value.Name}' - identified as '{_.Key}'");
+                    _logger.Warning($"Missing configuration for '{_.Value.Name}' - identified as '{_.Key}'");
                 }
             });
         }
