@@ -2,15 +2,20 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using Dolittle.Clients;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.DataTypes;
+using Dolittle.TimeSeries.DataTypes.Protobuf;
 using Dolittle.Types;
+using Grpc.Core;
 using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server.DataPointProcessors;
 using grpc = Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server;
 
@@ -65,16 +70,18 @@ namespace Dolittle.TimeSeries.DataPoints
         }
 
         /// <inheritdoc/>
-        public void Register()
+        public void Start()
         {
             Discover();
 
-            _dataProcessors.Values.ForEach(_ => 
+            _dataProcessors.Values.ForEach(_ =>
             {
-                _client.Instance.Register(new grpc.DataPointProcessor
+                var streamingCall = _client.Instance.Open(new grpc.DataPointProcessor
                 {
                     Id = _.Id.ToProtobuf()
                 });
+
+                Task.Run(async() => await Process(_, streamingCall.ResponseStream));
             });
         }
 
@@ -82,6 +89,88 @@ namespace Dolittle.TimeSeries.DataPoints
         public DataPointProcessor GetById(DataPointProcessorId id)
         {
             return _dataProcessors[id];
+        }
+
+        async Task Process(DataPointProcessor processor, IAsyncStreamReader<DataPoint> streamReader)
+        {
+            while (await streamReader.MoveNext())
+            {
+                var dataPoint = streamReader.Current;
+                var dataPointInstance = Convert(dataPoint);
+                try
+                {
+                    await processor.Invoke(
+                        new TimeSeriesMetadata(dataPoint.TimeSeries.To<TimeSeriesId>()),
+                        dataPointInstance);
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Error processing datapoint");
+                }
+            }
+        }
+
+        object Convert(DataTypes.Protobuf.DataPoint dataPoint)
+        {
+            System.Type valueType = typeof(object);
+            object valueInstance = null;
+            switch (dataPoint.Value.ValueCase)
+            {
+                case Value.ValueOneofCase.MeasurementValue:
+                    {
+                        switch (dataPoint.Value.MeasurementValue.ValueCase)
+                        {
+                            case Measurement.ValueOneofCase.FloatValue:
+                                {
+                                    valueType = typeof(Measurement<float>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<float>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.DoubleValue:
+                                {
+                                    valueType = typeof(Measurement<double>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<double>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.Int32Value:
+                                {
+                                    valueType = typeof(Measurement<int>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<int>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.Int64Value:
+                                {
+                                    valueType = typeof(Measurement<Int64>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<Int64>();
+                                }
+                                break;
+                        }
+                    }
+                    break;
+
+                case Value.ValueOneofCase.Vector2Value:
+                    valueType = typeof(DataTypes.Vector2);
+                    valueInstance = dataPoint.Value.ToVector2();
+                    break;
+
+                case Value.ValueOneofCase.Vector3Value:
+                    valueType = typeof(DataTypes.Vector3);
+                    valueInstance = dataPoint.Value.ToVector3();
+                    break;
+            }
+            var dataPointType = typeof(DataPoint<>).MakeGenericType(new [] { valueType });
+            var dataPointInstance = Activator.CreateInstance(dataPointType);
+            var valueProperty = dataPointType.GetProperty("Value", BindingFlags.Instance | BindingFlags.Public);
+            valueProperty.SetValue(dataPointInstance, valueInstance);
+
+            var timestamp = (Timestamp) dataPoint.Timestamp.ToDateTimeOffset();
+            var timestampProperty = dataPointType.GetProperty("Timestamp", BindingFlags.Instance | BindingFlags.Public);
+            timestampProperty.SetValue(dataPointInstance, timestamp);
+
+            var timeSeriesProperty = dataPointType.GetProperty("TimeSeries", BindingFlags.Instance |  BindingFlags.Public);
+            timeSeriesProperty.SetValue(dataPointInstance, dataPoint.TimeSeries.To<TimeSeriesId>());
+
+            return dataPointInstance;
         }
     }
 }

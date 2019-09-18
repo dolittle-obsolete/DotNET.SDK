@@ -30,7 +30,7 @@ namespace Dolittle.TimeSeries.DataPoints
         /// <inheritdoc/>
         public void Perform()
         {
-            _processors.Register();
+            _processors.Start();
         }
     }
 }

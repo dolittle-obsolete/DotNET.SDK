@@ -11,9 +11,9 @@ namespace Dolittle.TimeSeries.DataPoints
     public interface IDataPointsProcessors
     {
         /// <summary>
-        /// Register all <see cref="ICanProcessDataPoints">processors</see>
+        /// Starts all <see cref="ICanProcessDataPoints">processors</see>
         /// </summary>
-        void Register();
+        void Start();
 
         /// <summary>
         /// Get a <see cref="DataPointProcessor"/> by its <see cref="DataPointProcessorId">unique identifier</see>
