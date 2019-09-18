@@ -10,7 +10,7 @@ using Dolittle.TimeSeries.Connectors;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
 
-namespace PullConnector
+namespace StreamConnector
 {
     public class MyConnector : IAmAStreamingConnector
     {

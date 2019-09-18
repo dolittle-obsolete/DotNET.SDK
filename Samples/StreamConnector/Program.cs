@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using Dolittle.Clients;
 
-namespace PullConnector
+namespace StreamConnector
 {
     class Program
     {
