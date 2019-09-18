@@ -13,8 +13,8 @@ using Value = Dolittle.TimeSeries.DataTypes.Protobuf.Value;
 using Measurement = Dolittle.TimeSeries.DataTypes.Protobuf.Measurement;
 using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Client.DataPointProcessor;
 using System;
-using Dolittle.TimeSeries.DataTypes;
 using System.Reflection;
+using Dolittle.TimeSeries.DataTypes;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -43,64 +43,82 @@ namespace Dolittle.TimeSeries.DataPoints
             while (await requestStream.MoveNext())
             {
                 _logger.Information($"Data Point received");
-                var processor = _processors.GetById(requestStream.Current.Id.To<DataPointProcessorId>());
-                var dataPoint = requestStream.Current.DataPoint;
-
-                System.Type valueType = typeof(object);
-                object valueInstance = null;
-                switch (dataPoint.Value.ValueCase)
+                try
                 {
-                    case Value.ValueOneofCase.MeasurementValue:
-                        {
-                            switch (dataPoint.Value.MeasurementValue.ValueCase)
-                            {
-                                case Measurement.ValueOneofCase.FloatValue:
-                                    {
-                                        valueType = typeof(Measurement<float>);
-                                        valueInstance = dataPoint.Value.ToMeasurement<float>();
-                                    }
-                                    break;
-                                case Measurement.ValueOneofCase.DoubleValue:
-                                    {
-                                        valueType = typeof(Measurement<double>);
-                                        valueInstance = dataPoint.Value.ToMeasurement<double>();
-                                    }
-                                    break;
-                                case Measurement.ValueOneofCase.Int32Value:
-                                    {
-                                        valueType = typeof(Measurement<int>);
-                                        valueInstance = dataPoint.Value.ToMeasurement<int>();
-                                    }
-                                    break;
-                                case Measurement.ValueOneofCase.Int64Value:
-                                    {
-                                        valueType = typeof(Measurement<Int64>);
-                                        valueInstance = dataPoint.Value.ToMeasurement<Int64>();
-                                    }
-                                    break;
-                            }
-                        }
-                        break;
+                    var processor = _processors.GetById(requestStream.Current.Id.To<DataPointProcessorId>());
+                    var dataPoint = requestStream.Current.DataPoint;
 
-                    case Value.ValueOneofCase.Vector2Value:
-                        valueType = typeof(Vector2);
-                        valueInstance = dataPoint.Value.ToVector2();
-                        break;
+                    var dataPointInstance = Convert(dataPoint);
 
-                    case Value.ValueOneofCase.Vector3Value:
-                        valueType = typeof(Vector3);
-                        valueInstance = dataPoint.Value.ToVector3();
-                        break;
+                    await processor.Invoke(new TimeSeriesMetadata(Guid.NewGuid()), dataPointInstance);
                 }
-                var dataPointType = typeof(DataPoint<>).MakeGenericType(new[] {valueType});
-                var dataPointInstance = Activator.CreateInstance(dataPointType);
-                var valueProperty = dataPointType.GetProperty("Value", BindingFlags.Instance|BindingFlags.Public);
-                valueProperty.SetValue(dataPointInstance, valueInstance);
-
-                await processor.Invoke(new TimeSeriesMetadata(Guid.NewGuid()), dataPointInstance);
+                catch (Exception ex)
+                {
+                    _logger.Error(ex, "Couldn't process data point");
+                }
             }
 
             return new Empty();
+        }
+
+        object Convert(DataTypes.Protobuf.DataPoint dataPoint)
+        {
+            System.Type valueType = typeof(object);
+            object valueInstance = null;
+            switch (dataPoint.Value.ValueCase)
+            {
+                case Value.ValueOneofCase.MeasurementValue:
+                    {
+                        switch (dataPoint.Value.MeasurementValue.ValueCase)
+                        {
+                            case Measurement.ValueOneofCase.FloatValue:
+                                {
+                                    valueType = typeof(Measurement<float>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<float>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.DoubleValue:
+                                {
+                                    valueType = typeof(Measurement<double>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<double>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.Int32Value:
+                                {
+                                    valueType = typeof(Measurement<int>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<int>();
+                                }
+                                break;
+                            case Measurement.ValueOneofCase.Int64Value:
+                                {
+                                    valueType = typeof(Measurement<Int64>);
+                                    valueInstance = dataPoint.Value.ToMeasurement<Int64>();
+                                }
+                                break;
+                        }
+                    }
+                    break;
+
+                case Value.ValueOneofCase.Vector2Value:
+                    valueType = typeof(Vector2);
+                    valueInstance = dataPoint.Value.ToVector2();
+                    break;
+
+                case Value.ValueOneofCase.Vector3Value:
+                    valueType = typeof(Vector3);
+                    valueInstance = dataPoint.Value.ToVector3();
+                    break;
+            }
+            var dataPointType = typeof(DataPoint<>).MakeGenericType(new [] { valueType });
+            var dataPointInstance = Activator.CreateInstance(dataPointType);
+            var valueProperty = dataPointType.GetProperty("Value", BindingFlags.Instance | BindingFlags.Public);
+            valueProperty.SetValue(dataPointInstance, valueInstance);
+
+            var timestamp = (Timestamp)dataPoint.Timestamp.ToDateTimeOffset();
+            var timestampProperty = dataPointType.GetProperty("Timestamp", BindingFlags.Instance | BindingFlags.Public);
+            timestampProperty.SetValue(dataPointInstance, timestamp);
+
+            return dataPointInstance;
         }
     }
 }

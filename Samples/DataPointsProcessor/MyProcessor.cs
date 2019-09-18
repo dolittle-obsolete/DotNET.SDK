@@ -26,14 +26,9 @@ namespace PullConnector
         {
             _logger.Information($"DataPoint received with value '{dataPoint.Value.Value}'");
 
-            await Task.CompletedTask;
+            dataPoint.Value.Value *= 10;
 
             await _publisher.Publish(dataPoint);
         }
     }
 }
-
-/*
-public DataPointsOf<Vector2> TensionFilter => DataPoints.Of<Vector2>().ForTimeSeries(
-                                                                            (TimeSeriesId)"fce5460a-555d-4399-bfcc-1e340cae2501", 
-                                                                            (TimeSeriesId)"ee8098ac-eac6-4986-bec3-5d2bda8b63f7");*/

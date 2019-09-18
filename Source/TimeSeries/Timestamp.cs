@@ -8,15 +8,15 @@ using Dolittle.Concepts;
 namespace Dolittle.TimeSeries
 {
     /// <summary>
-    /// Represents a timestamp in EPOCH milliseconds
+    /// Represents a timestamp for a point in time
     /// </summary>
-    public class Timestamp : ConceptAs<long>
+    public class Timestamp : ConceptAs<DateTimeOffset>
     {
         /// <summary>
         /// Implicitly convert <see cref="Timestamp"/> to its <see cref="long"/> representation
         /// </summary>
         /// <param name="timeStamp"><see cref="Timestamp"/> to get the <see cref="long"/> representation of</param>
-        public static implicit operator long(Timestamp timeStamp)
+        public static implicit operator DateTimeOffset(Timestamp timeStamp)
         {
             return timeStamp.Value;
         }
@@ -25,7 +25,7 @@ namespace Dolittle.TimeSeries
         /// Implicitly convert <see cref="long"/> to its <see cref="Timestamp"/> representation
         /// </summary>
         /// <param name="timeStamp"><see cref="long"/> representation of <see cref="Timestamp"/></param>
-        public static implicit operator Timestamp(long timeStamp)
+        public static implicit operator Timestamp(DateTimeOffset timeStamp)
         {
             return new Timestamp {  Value = timeStamp };
         }
@@ -33,6 +33,6 @@ namespace Dolittle.TimeSeries
         /// <summary>
         /// Gets the UTC time for **NOW**
         /// </summary>
-        public static Timestamp UtcNow => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+        public static Timestamp UtcNow => DateTimeOffset.UtcNow;
     }
 }

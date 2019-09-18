@@ -19,7 +19,8 @@ namespace Dolittle.TimeSeries.DataPoints
         public ApplicationRuntimeServices()
         {
             Services = new[] {
-                new RuntimeServiceDefinition(typeof(grpc.DataPointProcessors.DataPointProcessorsClient), grpc.DataPointProcessors.Descriptor)
+                new RuntimeServiceDefinition(typeof(grpc.DataPointProcessors.DataPointProcessorsClient), grpc.DataPointProcessors.Descriptor),
+                new RuntimeServiceDefinition(typeof(grpc.DataPointStream.DataPointStreamClient), grpc.DataPointStream.Descriptor)
             };
         }
 

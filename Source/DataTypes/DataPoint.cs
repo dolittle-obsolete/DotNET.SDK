@@ -20,7 +20,7 @@ namespace Dolittle.TimeSeries.DataTypes
         public T Value {  get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Timestamp"/> in EPOCH microseconds
+        /// Gets or sets <see cref="Timestamp"/>
         /// </summary>
         public Timestamp Timestamp {  get; set; }
     }
