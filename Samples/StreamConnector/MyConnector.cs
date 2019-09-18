@@ -35,7 +35,10 @@ namespace StreamConnector
                     var dataPoints = configuration.Tags.Select(_ => new TagDataPoint
                     {
                         Tag = _,
-                        Value = (Measurement<float>)_random.NextDouble()
+                        //Value = (Measurement<float>)_random.NextDouble()
+                        //Value = (Measurement<double>)_random.NextDouble()
+                        //Value = new Vector2 { X = (float)_random.NextDouble(), Y = (float)_random.NextDouble() }
+                        Value = new Vector3 { X = (float)_random.NextDouble(), Y = (float)_random.NextDouble(), Z = (float)_random.NextDouble() }
                     });
                     await writer.Write(dataPoints);
                     
