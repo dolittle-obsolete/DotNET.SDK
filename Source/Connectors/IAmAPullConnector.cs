@@ -4,6 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Dolittle.TimeSeries.DataPoints;
 
 namespace Dolittle.TimeSeries.Connectors
 {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.DataTypes;
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
 using Grpc.Core;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client.StreamConnector;
@@ -50,9 +51,10 @@ namespace Dolittle.TimeSeries.Connectors
             connector.DataReceived += async (dataPoints) =>
             {
                 var streamTagDataPoints = new StreamTagDataPoints();
-                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataPoints.TagDataPoint
+                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new Runtime.DataPoints.Grpc.TagDataPoint
                 {
-                    Tag = _.Tag
+                    Tag = _.Tag,
+                    Value = _.Value.ToProtobuf()
                 }));
 
                 await responseStream.WriteAsync(streamTagDataPoints);

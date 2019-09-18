@@ -5,6 +5,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Dolittle.Configuration;
+using Dolittle.TimeSeries.DataPoints;
 
 namespace Dolittle.TimeSeries.Connectors
 {

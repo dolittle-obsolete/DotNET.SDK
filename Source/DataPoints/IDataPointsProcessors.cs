@@ -2,25 +2,24 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Threading.Tasks;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Defines a processor of <see cref="DataPoint{T}"/>
+    /// Defines a system 
     /// </summary>
-    public interface ICanProcessDataPoint<TValue>
+    public interface IDataPointsProcessors
     {
         /// <summary>
-        /// Gets the <see cref="DataPointsOf{T}">filter</see> to use
+        /// Register all <see cref="ICanProcessDataPoints">processors</see>
         /// </summary>
-        DataPointsOf<TValue> Filter { get; }
+        void Register();
 
         /// <summary>
-        /// Process a data point
+        /// Get a <see cref="DataPointProcessor"/> by its <see cref="DataPointProcessorId">unique identifier</see>
         /// </summary>
-        /// <param name="dataPoint"><see cref="DataPoint{T}"/> to process</param>
-        /// <returns><see cref="Task"/> for continuation</returns>
-        Task Process(DataPoint<TValue> dataPoint);
+        /// <param name="id"><see cref="DataPointProcessorId"/> to get by</param>
+        /// <returns>The <see cref="DataPointProcessor"/> for the id</returns>
+        DataPointProcessor GetById(DataPointProcessorId id);
     }
 }

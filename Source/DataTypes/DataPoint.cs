@@ -2,24 +2,17 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
-namespace Dolittle.TimeSeries
+namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
     /// Represents a datapoint in a <see cref="TimeSeries"/>
     /// </summary>
-    public class DataPoint<T>
+    public class DataPoint<T> where T:IValue 
     {
         /// <summary>
         /// Gets or sets the <see cref="TimeSeries"/> the <see cref="DataPoint{T}"/> belongs to
         /// </summary>
-        public TimeSeries TimeSeries {  get; set; }
-
-        /// <summary>
-        /// Gets or sets the <see cref="Origin"/> of the <see cref="DataPoint{T}"/>
-        /// </summary>
-        /// <value></value>
-        public Origin Origin { get; set; }
+        public TimeSeriesId TimeSeries {  get; set; }
 
         /// <summary>
         /// Gets or sets the value for the <see cref="DataPoint{T}"/>

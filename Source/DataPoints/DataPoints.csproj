@@ -10,11 +10,11 @@
         <PackageReference Include="Dolittle.SDK.Clients" Version="3.*" />
         <PackageReference Include="Dolittle.Protobuf" Version="3.*" />
         <PackageReference Include="Dolittle.Specifications" Version="3.*" />
-        <PackageReference Include="Dolittle.TimeSeries.DataTypes" Version="1.*" />
         <PackageReference Include="Dolittle.TimeSeries.Runtime.DataPoints.Grpc" Version="1.*" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="../DataTypes/DataTypes.csproj"/>
         <ProjectReference Include="../TimeSeries/TimeSeries.csproj"/>
     </ItemGroup>
 

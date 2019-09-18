@@ -4,13 +4,24 @@
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Concepts;
 
-namespace Dolittle.TimeSeries
+namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
     /// Represents a measurement
     /// </summary>
-    public class Measurement<T> : Value<Measurement<T>>
+    public class Measurement<T> : Value<Measurement<T>>, IValue
     {
+        /// <summary>
+        /// Implicitly convert from the a value of the type the <see cref="Measurement{T}"/> is 
+        /// for to an instance with the value
+        /// </summary>
+        /// <param name="value">Value to convert from</param>
+        /// <remarks>
+        /// The <see cref="Measurement{T}.Error">error property</see> will be set to 
+        /// the default value for the type
+        /// </remarks>
+        public static implicit operator Measurement<T>(T value) => new Measurement<T> { Value = value, Error = default };
+
         /// <summary>
         /// Gets or sets the value
         /// </summary>

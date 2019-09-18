@@ -6,8 +6,9 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Logging;
-using Dolittle.TimeSeries;
 using Dolittle.TimeSeries.Connectors;
+using Dolittle.TimeSeries.DataPoints;
+using Dolittle.TimeSeries.DataTypes;
 
 namespace PullConnector
 {
@@ -36,7 +37,7 @@ namespace PullConnector
                     var dataPoints = configuration.Tags.Select(_ => new TagDataPoint
                     {
                         Tag = _,
-                        Value = (float)_random.NextDouble()
+                        Value = (Measurement<float>)_random.NextDouble()
                     });
                     await DataReceived(dataPoints);
                     

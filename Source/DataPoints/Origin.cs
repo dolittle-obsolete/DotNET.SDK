@@ -2,23 +2,19 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System;
 using Dolittle.Concepts;
 
-namespace Dolittle.TimeSeries
+namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Represents the concept of an System
+    /// Represents the origin of a datapoint
     /// </summary>
-    public class TimeSeries : ConceptAs<Guid>
+    public class Origin : ConceptAs<string>
     {
         /// <summary>
-        /// Implicitly convert from <see cref="Guid"/> to <see cref="TimeSeries"/>
+        /// Implicitly convert from a <see cref="string"/> representation of origin to <see cref="Origin"/>
         /// </summary>
-        /// <param name="value">TimeSeries as <see cref="Guid"/></param>
-        public static implicit operator TimeSeries(Guid value)
-        {
-            return new TimeSeries { Value = value };
-        }
+        /// <param name="origin"><see cref="string"/> to convert from</param>
+        public static implicit operator Origin(string origin) => new Origin { Value = origin };
     }
 }

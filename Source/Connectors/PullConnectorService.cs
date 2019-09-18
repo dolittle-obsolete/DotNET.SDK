@@ -5,10 +5,12 @@
 using System;
 using System.Threading.Tasks;
 using Grpc.Core;
+
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client.PullConnector;
 using System.Linq;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.DataTypes;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -34,8 +36,9 @@ namespace Dolittle.TimeSeries.Connectors
             var connector = _connectors.GetById(request.ConnectorId.ToGuid());
             var dataPoints = await connector.Pull(request.Tags.Select(_ => (Tag)_));
             var result = new PullResult();
-            result.Data.Add(dataPoints.Select(_ => new DataPoints.TagDataPoint {
+            result.Data.Add(dataPoints.Select(_ => new Runtime.DataPoints.Grpc.TagDataPoint {
                 Tag = _.Tag,
+                Value = _.Value.ToProtobuf()
             }));
             
             return result;

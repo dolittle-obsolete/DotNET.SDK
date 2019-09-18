@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Specifications;
+using Dolittle.TimeSeries.DataTypes;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -10,6 +11,7 @@ namespace Dolittle.TimeSeries.DataPoints
     /// Represents a filter for a specific origin
     /// </summary>
     public class OriginOf<T> : Specification<DataPoint<T>>
+        where T:IValue
     {
         /// <summary>
         /// Initializes a new instance of <see cref="OriginOf{T}"/>
@@ -18,7 +20,7 @@ namespace Dolittle.TimeSeries.DataPoints
         public OriginOf(Origin origin)
         {
             Origin = origin;
-            Predicate = dataPoint => dataPoint.Origin == origin;
+            //Predicate = dataPoint => dataPoint.Origin == origin;
         }
 
         /// <summary>

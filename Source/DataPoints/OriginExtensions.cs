@@ -3,6 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Specifications;
+using Dolittle.TimeSeries.DataTypes;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -18,8 +19,9 @@ namespace Dolittle.TimeSeries.DataPoints
         /// <param name="origin"></param>
         /// <returns></returns>
         public static DataPointsOf<TValue> OriginatingFrom<TValue>(this DataPointsOf<TValue> filter, Origin origin)
+            where TValue:IValue
         {
-            filter.Specification = filter.Specification.And(new OriginOf<TValue>(origin));
+            filter.ValueSpecification = filter.ValueSpecification.And(new OriginOf<TValue>(origin));
             return filter;
         }
     }
