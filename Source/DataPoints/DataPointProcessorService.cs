@@ -15,6 +15,8 @@ using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Client.DataPointProcess
 using System;
 using System.Reflection;
 using Dolittle.TimeSeries.DataTypes;
+using System.Linq.Expressions;
+using Dolittle.Reflection;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -117,6 +119,9 @@ namespace Dolittle.TimeSeries.DataPoints
             var timestamp = (Timestamp)dataPoint.Timestamp.ToDateTimeOffset();
             var timestampProperty = dataPointType.GetProperty("Timestamp", BindingFlags.Instance | BindingFlags.Public);
             timestampProperty.SetValue(dataPointInstance, timestamp);
+
+            var timeSeriesProperty = dataPointType.GetProperty("TimeSeries", BindingFlags.Instance | BindingFlags.Public);
+            timeSeriesProperty.SetValue(dataPointInstance, dataPoint.TimeSeries.To<TimeSeriesId>());
 
             return dataPointInstance;
         }
