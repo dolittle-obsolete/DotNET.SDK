@@ -23,7 +23,7 @@ namespace PullConnector
         [DataPointProcessor]
         public async Task Tension(DataPoint<Measurement<float>> dataPoint)
         {
-            _logger.Information($"DataPoint received with value '{dataPoint.Value.Value}'");
+            _logger.Information($"DataPoint received for '{dataPoint.TimeSeries}' with value '{dataPoint.Value.Value}' generated @ '{dataPoint.Timestamp}'");
 
             dataPoint.Value.Value *= 10;
 
