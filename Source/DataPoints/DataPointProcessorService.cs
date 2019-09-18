@@ -2,7 +2,6 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
@@ -15,8 +14,6 @@ using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Client.DataPointProcess
 using System;
 using System.Reflection;
 using Dolittle.TimeSeries.DataTypes;
-using System.Linq.Expressions;
-using Dolittle.Reflection;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
