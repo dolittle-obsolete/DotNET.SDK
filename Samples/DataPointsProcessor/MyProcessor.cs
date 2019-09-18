@@ -4,7 +4,6 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Threading.Tasks;
 using Dolittle.Logging;
-using Dolittle.TimeSeries;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
 
@@ -13,7 +12,7 @@ namespace PullConnector
     public class MyProcessor : ICanProcessDataPoints
     {
         readonly IDataPointPublisher _publisher;
-        private readonly ILogger _logger;
+        readonly ILogger _logger;
 
         public MyProcessor(IDataPointPublisher publisher, ILogger logger)
         {
