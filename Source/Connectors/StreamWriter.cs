@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
+using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server;
 using Grpc.Core;
 
 namespace Dolittle.TimeSeries.Connectors
@@ -18,15 +18,15 @@ namespace Dolittle.TimeSeries.Connectors
     /// </summary>
     public class StreamWriter : IStreamWriter
     {
-        readonly IServerStreamWriter<StreamTagDataPoints> _serverStreamWriter;
+        readonly IClientStreamWriter<StreamTagDataPoints> _serverStreamWriter;
 
         /// <summary>
         /// Initializes a new instance of <see cref="StreamWriter"/>
         /// </summary>
-        /// <param name="serverStreamWriter">The <see cref="IServerStreamWriter{T}">server stream</see> to write to</param>
-        public StreamWriter(IServerStreamWriter<StreamTagDataPoints> serverStreamWriter)
+        /// <param name="clientStreamWriter">The <see cref="IClientStreamWriter{T}">server stream</see> to write to</param>
+        public StreamWriter(IClientStreamWriter<StreamTagDataPoints> clientStreamWriter)
         {
-            _serverStreamWriter = serverStreamWriter;
+            _serverStreamWriter = clientStreamWriter;
         }
 
         /// <inheritdoc/>

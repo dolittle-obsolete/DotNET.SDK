@@ -8,11 +8,12 @@ using System.Linq;
 using Dolittle.Clients;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
-using Dolittle.Types;
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server;
+using Dolittle.Types;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server.StreamConnectors;
-using Dolittle.Protobuf;
+using System.Threading.Tasks;
 using Dolittle.Logging;
+using Grpc.Core;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -58,20 +59,35 @@ namespace Dolittle.TimeSeries.Connectors
         {
             _connectors.ForEach(_ =>
             {
-                _logger.Information($"Registering '{_.Value.Name}' with id '{_.Key}'");
 
-                var tags = _configuration[_.Value.Name]?.Tags ?? new Tag[0];
-
-                var streamConnector = new StreamConnector
+                if (_configuration.ContainsKey(_.Value.Name))
                 {
-                    Id = _.Key.ToProtobuf(),
-                    Name = _.Value.Name,
-                };
+                    _logger.Information($"Registering '{_.Value.Name}' with id '{_.Key}'");
+                    var configuration = _configuration[_.Value.Name];
+                    var tags = configuration.Tags ?? new Tag[0];
 
-                streamConnector.Tags.Add(tags.Select(t => t.Value));
-                
-                _streamConnectorsClient.Instance.Register(streamConnector);
+                    var metadata = new Metadata();
+                    metadata.Add("streamconnectorid", _.Key.ToString());
+                    metadata.Add("streamconnectorname", _.Value.Name);
+                    metadata.Add("tags", string.Join(",", tags));
+
+                    var streamingCall = _streamConnectorsClient.Instance.Open(metadata);
+
+                    Task.Run(async() => await Process(configuration, _.Value, streamingCall.RequestStream));
+                }
+                else
+                {
+                    _logger.Warning($"Mussing configuration for '{_.Value.Name}' - identified as '{_.Key}'");
+                }
             });
+        }
+
+        async Task Process(StreamConnectorConfiguration configuration, IAmAStreamingConnector connector, IClientStreamWriter<StreamTagDataPoints> requestStream)
+        {
+            var streamWriter = new StreamWriter(requestStream);
+
+            await connector.Connect(configuration, streamWriter);
+
         }
     }
 }
