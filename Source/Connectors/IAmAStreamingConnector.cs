@@ -13,18 +13,16 @@ namespace Dolittle.TimeSeries.Connectors
     public interface IAmAStreamingConnector
     {
         /// <summary>
-        /// The event that represents data being received
-        /// </summary>
-        event TagDataReceived  DataReceived;
-
-        /// <summary>
         /// Gets the name of the connector
         /// </summary>
         Source Name { get; }
 
         /// <summary>
-        /// Connect to the system 
+        /// Connect to the system with the
         /// </summary>
-        Task Connect(StreamConnectorConfiguration configuration);
+        /// <param name="configuration"><see cref="StreamConnectorConfiguration">Configuration</see> for the connector</param>
+        /// <param name="writer"><see cref="IStreamWriter"/> used for writing <see cref="TagDataPoint"/></param>
+        /// <returns><see cref="Task"/> for continuation</returns>
+        Task Connect(StreamConnectorConfiguration configuration, IStreamWriter writer);
     }
 }

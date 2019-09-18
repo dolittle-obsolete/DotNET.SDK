@@ -9,8 +9,15 @@ using Dolittle.TimeSeries.DataPoints;
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Represents the callback for when a <see cref="TagDataPoint"/> is received
+    /// Defines a writer that exposed the capability of writing streams of <see cref="TagDataPoint">tag data points</see>
     /// </summary>
-    /// <param name="dataPoint"><see cref="TagDataPoint"/> received</param>
-    public delegate Task TagDataReceived(IEnumerable<TagDataPoint> dataPoint);
+    public interface IStreamWriter
+    {
+        /// <summary>
+        /// Write <see cref="TagDataPoint">tag data points</see> to the stream
+        /// </summary>
+        /// <param name="dataPoints"><see cref="TagDataPoint">Tag data points</see> to write</param>
+        /// <returns><see cref="Task"/> for continuation</returns>
+        Task Write(IEnumerable<TagDataPoint> dataPoints);
+    }
 }

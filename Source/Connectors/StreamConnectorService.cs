@@ -2,11 +2,9 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
-using Dolittle.TimeSeries.DataTypes;
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client;
 using Grpc.Core;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Client.StreamConnector;
@@ -19,8 +17,8 @@ namespace Dolittle.TimeSeries.Connectors
     public class StreamConnectorService : StreamConnectorBase
     {
         readonly ILogger _logger;
-        private readonly IStreamConnectors _connectors;
-        private readonly StreamConnectorsConfiguration _configuration;
+        readonly IStreamConnectors _connectors;
+        readonly StreamConnectorsConfiguration _configuration;
 
         /// <summary>
         /// Initializes a new instance of <see cref="StreamConnectorService"/>
@@ -47,23 +45,11 @@ namespace Dolittle.TimeSeries.Connectors
             if (!_configuration.ContainsKey(connector.Name)) await Task.CompletedTask;
 
             var configuration = _configuration[connector.Name];
+            var streamWriter = new StreamWriter(responseStream);
 
-            connector.DataReceived += async (dataPoints) =>
-            {
-                var streamTagDataPoints = new StreamTagDataPoints();
-                streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new Runtime.DataPoints.Grpc.TagDataPoint
-                {
-                    Tag = _.Tag,
-                    Value = _.Value.ToProtobuf()
-                }));
-
-                await responseStream.WriteAsync(streamTagDataPoints);
-            };
-
-            await connector.Connect(configuration);
+            await connector.Connect(configuration, streamWriter);
 
             _logger.Information($"Stream Disconnected");
         }
-
     }
 }

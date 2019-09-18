@@ -14,8 +14,6 @@ namespace PullConnector
 {
     public class MyConnector : IAmAStreamingConnector
     {
-        public event TagDataReceived DataReceived = (d) => Task.CompletedTask;
-
         readonly ILogger _logger;
         readonly Random _random;
 
@@ -27,7 +25,7 @@ namespace PullConnector
 
         public Source Name => "MyStreamConnector";
 
-        public async Task Connect(StreamConnectorConfiguration configuration)
+        public async Task Connect(StreamConnectorConfiguration configuration, IStreamWriter writer)
         {
             await Task.Run(async () =>
             {
@@ -39,9 +37,9 @@ namespace PullConnector
                         Tag = _,
                         Value = (Measurement<float>)_random.NextDouble()
                     });
-                    await DataReceived(dataPoints);
+                    await writer.Write(dataPoints);
                     
-                    await Task.Delay(100);
+                    await Task.Delay(1000);
                 }
             });
         }
