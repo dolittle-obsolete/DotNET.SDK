@@ -8,10 +8,13 @@ using System.Linq;
 using Dolittle.Clients;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
-using Dolittle.Types;
 using Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server;
+using Dolittle.Types;
 using static Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server.PullConnectors;
+using System.Threading.Tasks;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.DataTypes;
+using Grpc.Core;
 
 namespace Dolittle.TimeSeries.Connectors
 {
@@ -32,7 +35,10 @@ namespace Dolittle.TimeSeries.Connectors
         /// <param name="pullConnectorsClient"><see cref="IClientFor{T}">client for</see> <see cref="PullConnectorsClient"/> for connecting to runtime</param>
         /// <param name="connectors">Instances of <see cref="IAmAPullConnector"/></param>
         /// <param name="configuration"><see cref="PullConnectorsConfiguration"/> for configuring pull connectors</param>
-        public PullConnectors(IClientFor<PullConnectorsClient> pullConnectorsClient, IInstancesOf<IAmAPullConnector> connectors, PullConnectorsConfiguration configuration)
+        public PullConnectors(
+            IClientFor<PullConnectorsClient> pullConnectorsClient,
+            IInstancesOf<IAmAPullConnector> connectors,
+            PullConnectorsConfiguration configuration)
         {
             _connectors = connectors.ToDictionary(_ => (ConnectorId) Guid.NewGuid(), _ => _);
             _pullConnectorsClient = pullConnectorsClient;
@@ -59,10 +65,30 @@ namespace Dolittle.TimeSeries.Connectors
                     Name = _.Value.Name,
                     Interval = interval
                 };
-
                 pullConnector.Tags.Add(tags.Select(t => t.Value));
-                
-                _pullConnectorsClient.Instance.Register(pullConnector);
+
+                Task.Run(async() =>
+                {
+                    var streamCall = _pullConnectorsClient.Instance.Connect(pullConnector);
+
+                    while (await streamCall.ResponseStream.MoveNext())
+                    {
+                        var pullRequest = streamCall.ResponseStream.Current;
+
+                        var result = await _.Value.Pull(pullRequest.Tags.Select(t => (Tag) t));
+                        var tagDataPoints = result.Select(t => new Runtime.DataPoints.Grpc.TagDataPoint
+                        {
+                            Tag = t.Tag,
+                                Value = t.Value.ToProtobuf()
+                        });
+                        var writeMessage = new WriteMessage
+                        {
+                            ConnectorId = pullConnector.Id
+                        };
+                        writeMessage.Data.Add(tagDataPoints);
+                        await _pullConnectorsClient.Instance.WriteAsync(writeMessage);
+                    }
+                });
             });
         }
     }

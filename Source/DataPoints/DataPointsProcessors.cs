@@ -96,9 +96,10 @@ namespace Dolittle.TimeSeries.DataPoints
             while (await streamReader.MoveNext())
             {
                 var dataPoint = streamReader.Current;
-                var dataPointInstance = Convert(dataPoint);
+                
                 try
                 {
+                    var dataPointInstance = Convert(dataPoint);
                     await processor.Invoke(
                         new TimeSeriesMetadata(dataPoint.TimeSeries.To<TimeSeriesId>()),
                         dataPointInstance);
