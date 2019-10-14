@@ -21,8 +21,7 @@ namespace Dolittle.TimeSeries.Connectors
         /// <summary>
         /// Pull data from given tags
         /// </summary>
-        /// <param name="tags">Collection of <see cref="Tag">tags</see> to get for</param>
         /// <returns>The data for the <see cref="Tag"/></returns>
-        Task<IEnumerable<TagDataPoint>> Pull(IEnumerable<Tag> tags);
+        Task<IEnumerable<TagDataPoint>> Pull();
     }
 }

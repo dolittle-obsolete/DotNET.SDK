@@ -65,7 +65,6 @@ namespace Dolittle.TimeSeries.Connectors
                     Name = _.Value.Name,
                     Interval = interval
                 };
-                pullConnector.Tags.Add(tags.Select(t => t.Value));
 
                 Task.Run(async() =>
                 {
@@ -75,7 +74,7 @@ namespace Dolittle.TimeSeries.Connectors
                     {
                         var pullRequest = streamCall.ResponseStream.Current;
 
-                        var result = await _.Value.Pull(pullRequest.Tags.Select(t => (Tag) t));
+                        var result = await _.Value.Pull();
                         var tagDataPoints = result.Select(t => new Runtime.DataPoints.Grpc.TagDataPoint
                         {
                             Tag = t.Tag,

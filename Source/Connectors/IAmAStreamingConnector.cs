@@ -20,9 +20,8 @@ namespace Dolittle.TimeSeries.Connectors
         /// <summary>
         /// Connect to the system with the
         /// </summary>
-        /// <param name="configuration"><see cref="StreamConnectorConfiguration">Configuration</see> for the connector</param>
         /// <param name="writer"><see cref="IStreamWriter"/> used for writing <see cref="TagDataPoint"/></param>
         /// <returns><see cref="Task"/> for continuation</returns>
-        Task Connect(StreamConnectorConfiguration configuration, IStreamWriter writer);
+        Task Connect(IStreamWriter writer);
     }
 }

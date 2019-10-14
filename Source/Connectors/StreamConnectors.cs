@@ -26,7 +26,6 @@ namespace Dolittle.TimeSeries.Connectors
     {
         readonly IDictionary<ConnectorId, IAmAStreamingConnector> _connectors;
         readonly IClientFor<StreamConnectorsClient> _streamConnectorsClient;
-        readonly StreamConnectorsConfiguration _configuration;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -34,17 +33,14 @@ namespace Dolittle.TimeSeries.Connectors
         /// </summary>
         /// <param name="streamConnectorsClient"><see cref="IClientFor{T}">client for</see> <see cref="StreamConnectorsClient"/> for connecting to runtime</param>
         /// <param name="connectors">Instances of <see cref="IAmAStreamingConnector"/></param>
-        /// <param name="configuration"><see cref="StreamConnectorsConfiguration"/> for configuring stream connectors</param>
         /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public StreamConnectors(
             IClientFor<StreamConnectorsClient> streamConnectorsClient,
             IInstancesOf<IAmAStreamingConnector> connectors,
-            StreamConnectorsConfiguration configuration,
             ILogger logger)
         {
             _connectors = connectors.ToDictionary(_ => (ConnectorId) Guid.NewGuid(), _ => _);
             _streamConnectorsClient = streamConnectorsClient;
-            _configuration = configuration;
             _logger = logger;
         }
 
@@ -59,35 +55,22 @@ namespace Dolittle.TimeSeries.Connectors
         {
             _connectors.ForEach(_ =>
             {
+                _logger.Information($"Registering '{_.Value.Name}' with id '{_.Key}'");
 
-                if (_configuration.ContainsKey(_.Value.Name))
-                {
-                    _logger.Information($"Registering '{_.Value.Name}' with id '{_.Key}'");
-                    var configuration = _configuration[_.Value.Name];
-                    var tags = configuration.Tags ?? new Tag[0];
+                var metadata = new Metadata();
+                metadata.Add("streamconnectorid", _.Key.ToString());
+                metadata.Add("streamconnectorname", _.Value.Name);
 
-                    var metadata = new Metadata();
-                    metadata.Add("streamconnectorid", _.Key.ToString());
-                    metadata.Add("streamconnectorname", _.Value.Name);
-                    metadata.Add("tags", string.Join(",", tags));
+                var streamingCall = _streamConnectorsClient.Instance.Open(metadata);
 
-                    var streamingCall = _streamConnectorsClient.Instance.Open(metadata);
-
-                    Task.Run(async() => await Process(configuration, _.Value, streamingCall.RequestStream));
-                }
-                else
-                {
-                    _logger.Warning($"Missing configuration for '{_.Value.Name}' - identified as '{_.Key}'");
-                }
+                Task.Run(async() => await Process(_.Value, streamingCall.RequestStream));
             });
         }
 
-        async Task Process(StreamConnectorConfiguration configuration, IAmAStreamingConnector connector, IClientStreamWriter<StreamTagDataPoints> requestStream)
+        async Task Process(IAmAStreamingConnector connector, IClientStreamWriter<StreamTagDataPoints> requestStream)
         {
             var streamWriter = new StreamWriter(requestStream);
-
-            await connector.Connect(configuration, streamWriter);
-
+            await connector.Connect(streamWriter);
         }
     }
 }
