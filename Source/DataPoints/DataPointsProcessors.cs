@@ -33,11 +33,11 @@ namespace Dolittle.TimeSeries.DataPoints
         readonly IClientFor<DataPointProcessorsClient> _client;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="DataPointsProcessors"/>
         /// </summary>
-        /// <param name="processors"></param>
-        /// <param name="client"></param>
-        /// <param name="logger"></param>
+        /// <param name="processors">Instances of <see cref="ICanProcessDataPoints">processors</see></param>
+        /// <param name="client"><see cref="IClientFor{T}">Client</see> for <see cref="DataPointProcessorsClient"/></param>
+        /// <param name="logger"><see cref="ILogger"/> for logging</param>
         public DataPointsProcessors(
             IInstancesOf<ICanProcessDataPoints> processors,
             IClientFor<DataPointProcessorsClient> client,
@@ -96,13 +96,14 @@ namespace Dolittle.TimeSeries.DataPoints
             while (await streamReader.MoveNext())
             {
                 var dataPoint = streamReader.Current;
-                
+
                 try
                 {
                     var dataPointInstance = Convert(dataPoint);
                     await processor.Invoke(
-                        new TimeSeriesMetadata(dataPoint.TimeSeries.To<TimeSeriesId>()),
-                        dataPointInstance);
+                            new TimeSeriesMetadata(
+                                    dataPoint.TimeSeries.To<TimeSeriesId>()),
+                                    dataPointInstance);
                 }
                 catch (Exception ex)
                 {
@@ -111,7 +112,7 @@ namespace Dolittle.TimeSeries.DataPoints
             }
         }
 
-        object Convert(DataTypes.Protobuf.DataPoint dataPoint)
+        object Convert(DataPoint dataPoint)
         {
             System.Type valueType = typeof(object);
             object valueInstance = null;
@@ -119,33 +120,8 @@ namespace Dolittle.TimeSeries.DataPoints
             {
                 case Value.ValueOneofCase.MeasurementValue:
                     {
-                        switch (dataPoint.Value.MeasurementValue.ValueCase)
-                        {
-                            case Measurement.ValueOneofCase.FloatValue:
-                                {
-                                    valueType = typeof(Measurement<float>);
-                                    valueInstance = dataPoint.Value.ToMeasurement<float>();
-                                }
-                                break;
-                            case Measurement.ValueOneofCase.DoubleValue:
-                                {
-                                    valueType = typeof(Measurement<double>);
-                                    valueInstance = dataPoint.Value.ToMeasurement<double>();
-                                }
-                                break;
-                            case Measurement.ValueOneofCase.Int32Value:
-                                {
-                                    valueType = typeof(Measurement<int>);
-                                    valueInstance = dataPoint.Value.ToMeasurement<int>();
-                                }
-                                break;
-                            case Measurement.ValueOneofCase.Int64Value:
-                                {
-                                    valueType = typeof(Measurement<Int64>);
-                                    valueInstance = dataPoint.Value.ToMeasurement<Int64>();
-                                }
-                                break;
-                        }
+                        valueType = typeof(DataTypes.Measurement);
+                        valueInstance = dataPoint.Value.ToMeasurement();
                     }
                     break;
 
