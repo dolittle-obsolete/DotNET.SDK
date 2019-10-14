@@ -2,128 +2,110 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using System.Reflection;
-using Dolittle.TimeSeries.DataTypes.Protobuf;
-
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// Extension methods for conversions between <see cref="IValue"/> and <see cref="Value"/>
+    /// Extension methods for conversions between <see cref="IValue"/> and <see cref="Protobuf.Value"/>
     /// </summary>
     public static class ValueExtensions
     {
         /// <summary>
-        /// Convert from <see cref="IValue"/> of supported types to <see cref="Value"/>
+        /// Convert from <see cref="IValue"/> of supported types to <see cref="Protobuf.Value"/>
         /// </summary>
         /// <param name="value"><see cref="IValue"/> to convert from</param>
-        /// <returns>Converted <see cref="Value"/></returns>
+        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
         /// <remarks>
         /// Supported types:
         /// <see cref="Vector2"/>
         /// <see cref="Vector3"/>
-        /// <see cref="Measurement{T}"/>        
+        /// <see cref="Measurement"/>
         /// </remarks>
-        public static Value ToProtobuf(this IValue value)
+        public static Protobuf.Value ToProtobuf(this IValue value)
         {
             switch (value)
             {
-                case Vector2 _:
-                    return ((Vector2) value).ToProtobuf();
-                case Vector3 _:
-                    return ((Vector3) value).ToProtobuf();
+                case Vector2 v:
+                    return v.ToProtobuf();
+                case Vector3 v:
+                    return v.ToProtobuf();
+                case Measurement v:
+                    return new Protobuf.Value { MeasurementValue = v.ToProtobuf() };
             }
-            var type = value.GetType();
-            if (type.IsGenericType)
-            {
-                var genericArguments = type.GetGenericArguments();
-                if (typeof(Measurement<>).MakeGenericType(genericArguments[0]).IsAssignableFrom(type))
-                {
-                    var method = typeof(MeasurementExtensions).GetMethod(
-                        "ToProtobuf", 
-                        BindingFlags.Public|BindingFlags.Static).MakeGenericMethod(genericArguments[0]);
-                    var converted = new Value
-                    {
-                        MeasurementValue = method.Invoke(null, new[] { value }) as Measurement
-                    };
-                    return converted;
-                }
-            }
-
             throw new UnsupportedValueType(value.GetType());
         }
 
         /// <summary>
-        /// Convert from <see cref="Vector2"/> to <see cref="Value"/>
+        /// Convert from <see cref="Vector2"/> to <see cref="Protobuf.Value"/>
         /// </summary>
         /// <param name="vector2"><see cref="Vector2"/> to convert from</param>
-        /// <returns>Converted <see cref="Value"/></returns>
-        public static Value ToProtobuf(this Vector2 vector2)
+        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
+        public static Protobuf.Value ToProtobuf(this Vector2 vector2)
         {
-            return new Value
+            return new Protobuf.Value
             {
                 Vector2Value = new Protobuf.Vector2
                 {
                     X = vector2.X.ToProtobuf(),
                     Y = vector2.Y.ToProtobuf()
-                    }
+                }
             };
         }
 
         /// <summary>
-        /// Convert from <see cref="Vector3"/> to <see cref="Value"/>
+        /// Convert from <see cref="Vector3"/> to <see cref="Protobuf.Value"/>
         /// </summary>
         /// <param name="vector3"><see cref="Vector3"/> to convert from</param>
-        /// <returns>Converted <see cref="Value"/></returns>
-        public static Value ToProtobuf(this Vector3 vector3)
+        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
+        public static Protobuf.Value ToProtobuf(this Vector3 vector3)
         {
-            return new Value
+            return new Protobuf.Value
             {
                 Vector3Value = new Protobuf.Vector3
                 {
                     X = vector3.X.ToProtobuf(),
                     Y = vector3.Y.ToProtobuf(),
                     Z = vector3.Z.ToProtobuf()
-                    }
+                }
             };
         }
 
         /// <summary>
-        /// Convert from a <see cref="Value"/> to supported implementations of <see cref="Vector2"/>
+        /// Convert from a <see cref="Protobuf.Value"/> to supported implementations of <see cref="Vector2"/>
         /// </summary>
-        /// <param name="value"><see cref="Value"/> to convert from</param>
+        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
         /// <returns>Converted <see cref="Vector2"/></returns>
-        public static Vector2 ToVector2(this Value value)
+        public static Vector2 ToVector2(this Protobuf.Value value)
         {
             return new Vector2
             {
-                X = value.Vector2Value.X.ToMeasurement<float>(),
-                    Y = value.Vector2Value.Y.ToMeasurement<float>()
+                X = value.Vector2Value.X.ToMeasurement(),
+                Y = value.Vector2Value.Y.ToMeasurement()
             };
         }
 
         /// <summary>
-        /// Convert from a <see cref="Value"/> to <see cref="Vector3"/>
+        /// Convert from a <see cref="Protobuf.Value"/> to <see cref="Vector3"/>
         /// </summary>
-        /// <param name="value"><see cref="Value"/> to convert from</param>
+        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
         /// <returns>Converted <see cref="Vector3"/></returns>
-        public static Vector3 ToVector3(this Value value)
+        public static Vector3 ToVector3(this Protobuf.Value value)
         {
             return new Vector3
             {
-                X = value.Vector3Value.X.ToMeasurement<float>(),
-                    Y = value.Vector3Value.Y.ToMeasurement<float>(),
-                    Z = value.Vector3Value.Z.ToMeasurement<float>()
+                X = value.Vector3Value.X.ToMeasurement(),
+                Y = value.Vector3Value.Y.ToMeasurement(),
+                Z = value.Vector3Value.Z.ToMeasurement()
             };
         }
 
         /// <summary>
-        /// Convert from a <see cref="Value"/> to <see cref="Measurement{T}"/>
+        /// Convert from a <see cref="Protobuf.Value"/> to <see cref="Measurement"/>
         /// </summary>
-        /// <param name="value"><see cref="Value"/> to convert from</param>
-        /// <returns>Converted <see cref="Measurement{T}"/></returns>
-        public static Measurement<T> ToMeasurement<T>(this Value value)
+        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
+        /// <returns>Converted <see cref="Measurement"/></returns>
+        public static Measurement ToMeasurement(this Protobuf.Value value)
         {
-            return value.MeasurementValue.ToMeasurement<T>();
+            return value.MeasurementValue.ToMeasurement();
         }
     }
 }

@@ -12,13 +12,24 @@ namespace Dolittle.TimeSeries.DataPoints
     public class TagDataPoint
     {
         /// <summary>
+        /// Initializes a new instance of <see cref="TagDataPoint"/>
+        /// </summary>
+        /// <param name="tag"><see cref="Tag"/></param>
+        /// <param name="value"><see cref="IValue"/></param>
+        public TagDataPoint(Tag tag, IValue value)
+        {
+            Tag = tag;
+            Value = value;
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="Tag"/> this value belong to
         /// </summary>
-        public Tag Tag { get; set; }
+        public Tag Tag { get; }
 
         /// <summary>
         /// Gets or sets the value
         /// </summary>
-        public IValue Value { get; set; }
+        public IValue Value { get; }
     }
 }

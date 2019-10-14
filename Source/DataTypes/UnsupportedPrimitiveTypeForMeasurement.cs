@@ -3,13 +3,12 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Dolittle.TimeSeries.DataTypes.Protobuf;
 
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// The exception that gets thrown when a unsupported primitive type is used for <see cref="Measurement{T}"/>
-    /// and the protobuf representation <see cref="Measurement"/>
+    /// The exception that gets thrown when a unsupported primitive type is used for <see cref="Measurement"/>
+    /// and the protobuf representation <see cref="Protobuf.Measurement"/>
     /// </summary>
     public class UnsupportedPrimitiveTypeForMeasurement : Exception
     {

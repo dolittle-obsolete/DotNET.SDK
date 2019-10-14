@@ -14,16 +14,16 @@ namespace Dolittle.TimeSeries.DataTypes
         /// <summary>
         /// Gets or sets the X component
         /// </summary>
-        public Measurement<float>   X { get; set; }
+        public Measurement   X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y component
         /// </summary>
-        public Measurement<float>   Y { get; set; }
+        public Measurement   Y { get; set; }
 
         /// <summary>
         /// Gets or sets the Y component
         /// </summary>
-        public Measurement<float>   Z { get; set; }
+        public Measurement   Z { get; set; }
     }
 }

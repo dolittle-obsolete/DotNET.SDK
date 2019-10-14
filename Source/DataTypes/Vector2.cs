@@ -16,18 +16,18 @@ namespace Dolittle.TimeSeries.DataTypes
         /// </summary>
         public Vector2()
         {
-            X = new Measurement<float>();
-            Y = new Measurement<float>();
+            X = new Measurement();
+            Y = new Measurement();
         }
 
         /// <summary>
         /// Gets or sets the X component
         /// </summary>
-        public Measurement<float>   X { get; set; }
+        public Measurement   X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y component
         /// </summary>
-        public Measurement<float>   Y { get; set; }
+        public Measurement   Y { get; set; }
     }
 }
