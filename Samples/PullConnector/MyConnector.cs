@@ -24,16 +24,15 @@ namespace PullConnector
             _logger = logger;
             _random = new Random();
         }
-        
+
         public Source Name => "MyPullConnector";
 
-        public Task<IEnumerable<TagDataPoint>> Pull(IEnumerable<Tag> tags)
+        public Task<IEnumerable<TagDataPoint>> Pull()
         {
-            _logger.Information($"Pulling tags '{string.Join(", ", tags.Select(_ => _.Value))}'");
-            return Task.FromResult(tags.Select(_ => new TagDataPoint {
-                Tag = _,
-                Value = (Measurement<float>)_random.NextDouble()
-            }));
+            var tags = new [] {"first", "second", "third"};
+
+            _logger.Information($"Pulling tags '{string.Join(", ", tags.Select(_ => _))}'");
+            return Task.FromResult(tags.Select(_ => new TagDataPoint(_,(Measurement)_random.NextDouble())));
         }
     }
 }
