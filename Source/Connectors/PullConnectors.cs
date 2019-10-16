@@ -57,7 +57,6 @@ namespace Dolittle.TimeSeries.Connectors
             _connectors.ForEach(_ =>
             {
                 var interval = _configuration[_.Value.Name]?.Interval ?? 10000;
-                var tags = _configuration[_.Value.Name]?.Tags ?? new Tag[0];
 
                 var pullConnector = new PullConnector
                 {
