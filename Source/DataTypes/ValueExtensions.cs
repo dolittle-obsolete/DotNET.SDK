@@ -5,22 +5,22 @@
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// Extension methods for conversions between <see cref="IValue"/> and <see cref="Protobuf.Value"/>
+    /// Extension methods for conversions between <see cref="IValue"/> and <see cref="Runtime.DataTypes.Value"/>
     /// </summary>
     public static class ValueExtensions
     {
         /// <summary>
-        /// Convert from <see cref="IValue"/> of supported types to <see cref="Protobuf.Value"/>
+        /// Convert from <see cref="IValue"/> of supported types to <see cref="Runtime.DataTypes.Value"/>
         /// </summary>
         /// <param name="value"><see cref="IValue"/> to convert from</param>
-        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
+        /// <returns>Converted <see cref="Runtime.DataTypes.Value"/></returns>
         /// <remarks>
         /// Supported types:
         /// <see cref="Vector2"/>
         /// <see cref="Vector3"/>
         /// <see cref="Measurement"/>
         /// </remarks>
-        public static Protobuf.Value ToProtobuf(this IValue value)
+        public static Runtime.DataTypes.Value ToProtobuf(this IValue value)
         {
             switch (value)
             {
@@ -29,21 +29,21 @@ namespace Dolittle.TimeSeries.DataTypes
                 case Vector3 v:
                     return v.ToProtobuf();
                 case Measurement v:
-                    return new Protobuf.Value { MeasurementValue = v.ToProtobuf() };
+                    return new Runtime.DataTypes.Value { MeasurementValue = v.ToProtobuf() };
             }
             throw new UnsupportedValueType(value.GetType());
         }
 
         /// <summary>
-        /// Convert from <see cref="Vector2"/> to <see cref="Protobuf.Value"/>
+        /// Convert from <see cref="Vector2"/> to <see cref="Runtime.DataTypes.Value"/>
         /// </summary>
         /// <param name="vector2"><see cref="Vector2"/> to convert from</param>
-        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
-        public static Protobuf.Value ToProtobuf(this Vector2 vector2)
+        /// <returns>Converted <see cref="Runtime.DataTypes.Value"/></returns>
+        public static Runtime.DataTypes.Value ToProtobuf(this Vector2 vector2)
         {
-            return new Protobuf.Value
+            return new Runtime.DataTypes.Value
             {
-                Vector2Value = new Protobuf.Vector2
+                Vector2Value = new Runtime.DataTypes.Vector2
                 {
                     X = vector2.X.ToProtobuf(),
                     Y = vector2.Y.ToProtobuf()
@@ -52,15 +52,15 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from <see cref="Vector3"/> to <see cref="Protobuf.Value"/>
+        /// Convert from <see cref="Vector3"/> to <see cref="Runtime.DataTypes.Value"/>
         /// </summary>
         /// <param name="vector3"><see cref="Vector3"/> to convert from</param>
-        /// <returns>Converted <see cref="Protobuf.Value"/></returns>
-        public static Protobuf.Value ToProtobuf(this Vector3 vector3)
+        /// <returns>Converted <see cref="Runtime.DataTypes.Value"/></returns>
+        public static Runtime.DataTypes.Value ToProtobuf(this Vector3 vector3)
         {
-            return new Protobuf.Value
+            return new Runtime.DataTypes.Value
             {
-                Vector3Value = new Protobuf.Vector3
+                Vector3Value = new Runtime.DataTypes.Vector3
                 {
                     X = vector3.X.ToProtobuf(),
                     Y = vector3.Y.ToProtobuf(),
@@ -70,11 +70,11 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="Protobuf.Value"/> to supported implementations of <see cref="Vector2"/>
+        /// Convert from a <see cref="Runtime.DataTypes.Value"/> to supported implementations of <see cref="Vector2"/>
         /// </summary>
-        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
+        /// <param name="value"><see cref="Runtime.DataTypes.Value"/> to convert from</param>
         /// <returns>Converted <see cref="Vector2"/></returns>
-        public static Vector2 ToVector2(this Protobuf.Value value)
+        public static Vector2 ToVector2(this Runtime.DataTypes.Value value)
         {
             return new Vector2
             {
@@ -84,11 +84,11 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="Protobuf.Value"/> to <see cref="Vector3"/>
+        /// Convert from a <see cref="Runtime.DataTypes.Value"/> to <see cref="Vector3"/>
         /// </summary>
-        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
+        /// <param name="value"><see cref="Runtime.DataTypes.Value"/> to convert from</param>
         /// <returns>Converted <see cref="Vector3"/></returns>
-        public static Vector3 ToVector3(this Protobuf.Value value)
+        public static Vector3 ToVector3(this Runtime.DataTypes.Value value)
         {
             return new Vector3
             {
@@ -99,11 +99,11 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="Protobuf.Value"/> to <see cref="Measurement"/>
+        /// Convert from a <see cref="Runtime.DataTypes.Value"/> to <see cref="Measurement"/>
         /// </summary>
-        /// <param name="value"><see cref="Protobuf.Value"/> to convert from</param>
+        /// <param name="value"><see cref="Runtime.DataTypes.Value"/> to convert from</param>
         /// <returns>Converted <see cref="Measurement"/></returns>
-        public static Measurement ToMeasurement(this Protobuf.Value value)
+        public static Measurement ToMeasurement(this Runtime.DataTypes.Value value)
         {
             return value.MeasurementValue.ToMeasurement();
         }

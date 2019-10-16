@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Dolittle.Clients;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.DataTypes.Protobuf;
+using Dolittle.TimeSeries.Runtime.DataTypes;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server.DataPointStream;
+using static Dolittle.TimeSeries.Runtime.DataPoints.DataPointStream;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -22,9 +22,9 @@ namespace Dolittle.TimeSeries.DataPoints
         readonly AsyncClientStreamingCall<DataPoint, Empty>  _streamCall;
 
         /// <summary>
-        /// 
+        /// Initializes a new instance of <see cref="DataPointPublisher"/>
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="client"><see cref="IClientFor{T}"/> <see cref="DataPointStreamClient"/></param>
         public DataPointPublisher(IClientFor<DataPointStreamClient> client)
         {
             _streamCall = client.Instance.Open();

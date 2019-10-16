@@ -10,9 +10,9 @@ namespace Dolittle.TimeSeries.DataTypes.for_ValueExtensions
     {
         static Vector3 vector3 = new Vector3
         {
-            X = new Measurement<float> { Value = 42.43f, Error = 44.45f }, 
-            Y = new Measurement<float> { Value = 46.47f, Error = 48.49f },
-            Z = new Measurement<float> { Value = 50.51f, Error = 52.53f }
+            X = new Measurement { Value = 42.43, Error = 44.45 }, 
+            Y = new Measurement { Value = 46.47, Error = 48.49 },
+            Z = new Measurement { Value = 50.51, Error = 52.53 }
         };
 
         static Vector3 result;

@@ -9,10 +9,10 @@ namespace Dolittle.TimeSeries.DataTypes.for_MeasurementExtensions
 
     public class when_converting_double_measurement_and_back
     {
-        static Measurement<double>   measurement = new Measurement<double> { Value = 42.43, Error = 44.45 };
-        static Measurement<double>   result;
+        static Measurement   measurement = new Measurement { Value = 42.43, Error = 44.45 };
+        static Measurement   result;
 
-        Because of = () => result = measurement.ToProtobuf().ToMeasurement<double>();
+        Because of = () => result = measurement.ToProtobuf().ToMeasurement();
 
         It should_hold_the_correct_value = () => result.Value.ShouldEqual(measurement.Value);
         It should_hold_the_correct_error = () => result.Error.ShouldEqual(measurement.Error);

@@ -17,7 +17,6 @@ namespace Dolittle.TimeSeries
         /// </summary>
         /// <param name="value">TimeSeries as <see cref="Guid"/></param>
         public static implicit operator TimeSeriesId(Guid value) => new TimeSeriesId { Value = value };
-    
 
         /// <summary>
         /// Implicitly convert from <see cref="string"/> to <see cref="TimeSeriesId"/>

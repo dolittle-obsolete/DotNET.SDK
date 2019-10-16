@@ -15,14 +15,14 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
     {
         public interface Processor : ICanProcessDataPoints
         {
-            Task MyProcessorMethod(DataPoint<Measurement<float>> dataPoint);
+            Task MyProcessorMethod(DataPoint<Measurement> dataPoint);
         }
 
         static Mock<Processor> instance;
         static MethodInfo method;
         static DataPointProcessor processor;
 
-        static DataPoint<Measurement<float>> data_point;
+        static DataPoint<Measurement> data_point;
 
 
         Establish context = () =>
@@ -30,8 +30,8 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
             instance = new Mock<Processor>();
             method = typeof(Processor).GetMethod("MyProcessorMethod", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             processor = new DataPointProcessor(instance.Object, method);
-            data_point = new DataPoint<Measurement<float>> {
-                Value = new Measurement<float> { Value = 42f, Error = 43f }
+            data_point = new DataPoint<Measurement> {
+                Value = new Measurement { Value = 42, Error = 43 }
             };
         };
 

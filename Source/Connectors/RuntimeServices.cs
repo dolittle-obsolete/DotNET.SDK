@@ -4,19 +4,19 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Clients;
-using grpc = Dolittle.TimeSeries.Runtime.Connectors.Grpc.Server;
+using grpc = Dolittle.TimeSeries.Runtime.Connectors;
 
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
     /// Represents the runtime services having a client representation
     /// </summary>
-    public class ApplicationRuntimeServices : IDefineApplicationRuntimeServices
+    public class RuntimeServices : IDefineRuntimeServices
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ApplicationRuntimeServices"/>
+        /// Initializes a new instance of <see cref="RuntimeServices"/>
         /// </summary>
-        public ApplicationRuntimeServices()
+        public RuntimeServices()
         {
             Services = new[] {
                 new RuntimeServiceDefinition(typeof(grpc.PullConnectors.PullConnectorsClient), grpc.PullConnectors.Descriptor),

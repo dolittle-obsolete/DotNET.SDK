@@ -16,6 +16,5 @@ namespace Dolittle.TimeSeries.DataTypes.for_ValueExtensions
         Because of = () => result = Catch.Exception(() => new MyValue().ToProtobuf());
 
         It should_throw_unsupported_value_type = () => result.ShouldBeOfExactType<UnsupportedValueType>();
-        
     }
 }

@@ -13,10 +13,10 @@ namespace Dolittle.TimeSeries.DataTypes
         /// Convert supported primitive types of <see cref="Measurement"/> to <see cref="Measurement"/>
         /// </summary>
         /// <param name="measurement"><see cref="Measurement"/> to convert from</param>
-        /// <returns>Converted <see cref="Measurement"/></returns>
-        public static Protobuf.Measurement ToProtobuf(this Measurement measurement)
+        /// <returns>Converted <see cref="Runtime.DataTypes.Measurement"/></returns>
+        public static Runtime.DataTypes.Measurement ToProtobuf(this Measurement measurement)
         {
-            return new Protobuf.Measurement
+            return new Runtime.DataTypes.Measurement
             {
                 Value = measurement.Value
             };
@@ -25,9 +25,9 @@ namespace Dolittle.TimeSeries.DataTypes
         /// <summary>
         /// Convert a protobuf <see cref="Measurement"/> to a <see cref="Measurement"/> of supported primitive types
         /// </summary>
-        /// <param name="measurement"><see cref="Protobuf.Measurement"/> to convert from</param>
+        /// <param name="measurement"><see cref="Runtime.DataTypes.Measurement"/> to convert from</param>
         /// <returns>Converted <see cref="Measurement"/></returns>
-        public static Measurement ToMeasurement(this Protobuf.Measurement measurement)
+        public static Measurement ToMeasurement(this Runtime.DataTypes.Measurement measurement)
         {
             return new Measurement
             {

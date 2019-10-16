@@ -13,11 +13,11 @@ using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.DataTypes.Protobuf;
+using Dolittle.TimeSeries.Runtime.DataTypes;
 using Dolittle.Types;
 using Grpc.Core;
-using static Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server.DataPointProcessors;
-using grpc = Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server;
+using static Dolittle.TimeSeries.Runtime.DataPoints.DataPointProcessors;
+using grpc = Dolittle.TimeSeries.Runtime.DataPoints;
 
 namespace Dolittle.TimeSeries.DataPoints
 {

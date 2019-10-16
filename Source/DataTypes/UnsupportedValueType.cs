@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using System;
-using Dolittle.TimeSeries.DataTypes.Protobuf;
+using Dolittle.TimeSeries.Runtime.DataTypes;
 
 namespace Dolittle.TimeSeries.DataTypes
 {
@@ -14,7 +14,7 @@ namespace Dolittle.TimeSeries.DataTypes
     public class UnsupportedValueType : Exception
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="UnsupportedPrimitiveTypeForMeasurement"/>
+        /// Initializes a new instance of <see cref="UnsupportedValueType"/>
         /// </summary>
         /// <param name="type">Unsupported <see cref="Type"/></param>
         public UnsupportedValueType(Type type) : base($"Type '{type.AssemblyQualifiedName}' is not a supported value type") {}

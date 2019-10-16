@@ -4,23 +4,23 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Clients;
-using grpc = Dolittle.TimeSeries.Runtime.DataPoints.Grpc.Server;
+using Dolittle.TimeSeries.Runtime.DataPoints;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
     /// Represents the runtime services having a client representation
     /// </summary>
-    public class ApplicationRuntimeServices : IDefineApplicationRuntimeServices
+    public class RuntimeServices : IDefineRuntimeServices
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="ApplicationRuntimeServices"/>
+        /// Initializes a new instance of <see cref="RuntimeServices"/>
         /// </summary>
-        public ApplicationRuntimeServices()
+        public RuntimeServices()
         {
             Services = new[] {
-                new RuntimeServiceDefinition(typeof(grpc.DataPointProcessors.DataPointProcessorsClient), grpc.DataPointProcessors.Descriptor),
-                new RuntimeServiceDefinition(typeof(grpc.DataPointStream.DataPointStreamClient), grpc.DataPointStream.Descriptor)
+                new RuntimeServiceDefinition(typeof(DataPointProcessors.DataPointProcessorsClient), DataPointProcessors.Descriptor),
+                new RuntimeServiceDefinition(typeof(DataPointStream.DataPointStreamClient), DataPointStream.Descriptor)
             };
         }
 

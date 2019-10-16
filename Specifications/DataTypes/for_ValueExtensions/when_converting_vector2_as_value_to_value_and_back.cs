@@ -10,8 +10,8 @@ namespace Dolittle.TimeSeries.DataTypes.for_ValueExtensions
     {
         static IValue vector2 = new Vector2
         {
-            X = new Measurement<float> { Value = 42.43f, Error = 44.45f }, 
-            Y = new Measurement<float> { Value = 46.47f, Error = 48.49f }
+            X = new Measurement { Value = 42.43, Error = 44.45 }, 
+            Y = new Measurement { Value = 46.47, Error = 48.49 }
         };
 
         static Vector2 result;

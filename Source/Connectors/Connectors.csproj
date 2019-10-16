@@ -9,9 +9,7 @@
     <ItemGroup>
         <PackageReference Include="Dolittle.SDK.Clients" Version="3.*" />
         <PackageReference Include="Dolittle.Protobuf" Version="3.*" />
-        <PackageReference Include="Dolittle.TimeSeries.DataTypes.Protobuf" Version="1.*" />
-        <PackageReference Include="Dolittle.TimeSeries.Runtime.DataPoints.Grpc" Version="1.*" />
-        <PackageReference Include="Dolittle.TimeSeries.Runtime.Connectors.Grpc" Version="1.*" />
+        <PackageReference Include="Dolittle.TimeSeries.Runtime.Contracts" Version="1.*" />
     </ItemGroup>
 
     <ItemGroup>
