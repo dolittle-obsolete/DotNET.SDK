@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Dolittle.Clients;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.Runtime.DataTypes;
+using Dolittle.TimeSeries.DataTypes.Runtime;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
-using static Dolittle.TimeSeries.Runtime.DataPoints.DataPointStream;
+using static Dolittle.TimeSeries.DataPoints.Runtime.DataPointStream;
 
 namespace Dolittle.TimeSeries.DataPoints
 {

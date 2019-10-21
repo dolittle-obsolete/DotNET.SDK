@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System.Collections.Generic;
 using Dolittle.Clients;
-using Dolittle.TimeSeries.Runtime.DataPoints;
+using Dolittle.TimeSeries.DataPoints.Runtime;
 
 namespace Dolittle.TimeSeries.DataPoints
 {

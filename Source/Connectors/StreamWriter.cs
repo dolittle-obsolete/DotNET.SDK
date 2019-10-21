@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.Runtime.Connectors;
+using Dolittle.TimeSeries.Connectors.Runtime;
 using Grpc.Core;
 
 namespace Dolittle.TimeSeries.Connectors
@@ -33,10 +33,10 @@ namespace Dolittle.TimeSeries.Connectors
         public async Task Write(IEnumerable<TagDataPoint> dataPoints)
         {
             var streamTagDataPoints = new StreamTagDataPoints();
-            streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new Runtime.DataPoints.TagDataPoint
+            streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataPoints.Runtime.TagDataPoint
             {
                 Tag = _.Tag,
-                    Value = _.Value.ToProtobuf()
+                Value = _.Value.ToProtobuf()
             }));
 
             await _serverStreamWriter.WriteAsync(streamTagDataPoints);

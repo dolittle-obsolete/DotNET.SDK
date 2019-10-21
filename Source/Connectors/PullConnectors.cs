@@ -8,9 +8,9 @@ using System.Linq;
 using Dolittle.Clients;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
-using Dolittle.TimeSeries.Runtime.Connectors;
+using Dolittle.TimeSeries.Connectors.Runtime;
 using Dolittle.Types;
-using static Dolittle.TimeSeries.Runtime.Connectors.PullConnectors;
+using static Dolittle.TimeSeries.Connectors.Runtime.PullConnectors;
 using System.Threading.Tasks;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
@@ -74,7 +74,7 @@ namespace Dolittle.TimeSeries.Connectors
                         var pullRequest = streamCall.ResponseStream.Current;
 
                         var result = await _.Value.Pull();
-                        var tagDataPoints = result.Select(t => new Runtime.DataPoints.TagDataPoint
+                        var tagDataPoints = result.Select(t => new DataPoints.Runtime.TagDataPoint
                         {
                             Tag = t.Tag,
                                 Value = t.Value.ToProtobuf()
