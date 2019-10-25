@@ -7,7 +7,7 @@ using Dolittle.TimeSeries.DataTypes;
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Represents an data point for a <see cref="Tag"/> on a <see cref="Source"/>
+    /// Represents a data point for a <see cref="Tag"/> on a <see cref="Source"/>
     /// </summary>
     public class TagDataPoint
     {

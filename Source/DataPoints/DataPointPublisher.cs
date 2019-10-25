@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 using System;
 using System.Threading.Tasks;
-using Dolittle.Clients;
+using Dolittle.Heads;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
 using Dolittle.TimeSeries.DataTypes.Runtime;

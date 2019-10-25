@@ -3,7 +3,7 @@
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Booting;
-using Dolittle.Clients;
+using Dolittle.Heads;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
@@ -25,7 +25,7 @@ namespace Dolittle.TimeSeries.DataPoints
         }
         
         /// <inheritdoc/>
-        public bool CanPerform() => Client.Connected;
+        public bool CanPerform() => Head.Connected;
 
         /// <inheritdoc/>
         public void Perform()

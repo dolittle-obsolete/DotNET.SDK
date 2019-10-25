@@ -5,7 +5,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Clients;
+using Dolittle.Heads;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
 using Dolittle.TimeSeries.Connectors.Runtime;

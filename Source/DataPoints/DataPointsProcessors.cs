@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Dolittle.Clients;
+using Dolittle.Heads;
 using Dolittle.Collections;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
