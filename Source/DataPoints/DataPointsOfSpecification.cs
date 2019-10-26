@@ -12,7 +12,7 @@ namespace Dolittle.TimeSeries.DataPoints
     /// specific type
     /// </summary>
     public class DataPointsOfSpecification<TValue> : Specification<DataPoint<TValue>>
-        where TValue:IValue
+        where TValue:IMeasurement
     {
 
     }

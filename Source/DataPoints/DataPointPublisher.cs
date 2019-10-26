@@ -32,15 +32,9 @@ namespace Dolittle.TimeSeries.DataPoints
 
 
         /// <inheritdoc/>
-        public async Task Publish<TValue>(DataPoint<TValue> dataPoint) where TValue:IValue
+        public async Task Publish<TValue>(DataPoint<TValue> dataPoint) where TValue:IMeasurement
         {
-            var converted = new DataPoint
-            {
-                TimeSeries = dataPoint.TimeSeries?.ToProtobuf() ?? Guid.Empty.ToProtobuf(),
-                Value = dataPoint.Value.ToProtobuf(),
-                Timestamp = Google.Protobuf.WellKnownTypes.Timestamp.FromDateTimeOffset(dataPoint.Timestamp)
-            };
-            await _streamCall.RequestStream.WriteAsync(converted);
+            await _streamCall.RequestStream.WriteAsync(dataPoint.ToRuntime()).ConfigureAwait(false);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace Dolittle.TimeSeries.DataPoints
     /// <summary>
     /// Represents the filtering of <see cref="DataPoint{T}">data points</see>
     /// </summary>
-    public class DataPointsOf<TValue> where TValue:IValue
+    public class DataPointsOf<TValue> where TValue:IMeasurement
     {
         /// <summary>
         /// 

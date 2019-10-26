@@ -17,6 +17,6 @@ namespace Dolittle.TimeSeries.DataPoints
         /// </summary>
         /// <param name="dataPoint"><see cref="DataPoint{T}"/> to publish</param>
         /// <returns><see cref="Task"/> for continuation</returns>
-        Task Publish<TValue>(DataPoint<TValue> dataPoint) where TValue:IValue;
+        Task Publish<TValue>(DataPoint<TValue> dataPoint) where TValue:IMeasurement;
     }
 }

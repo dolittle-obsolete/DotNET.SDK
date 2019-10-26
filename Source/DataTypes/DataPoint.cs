@@ -7,7 +7,7 @@ namespace Dolittle.TimeSeries.DataTypes
     /// <summary>
     /// Represents a datapoint in a <see cref="TimeSeries"/>
     /// </summary>
-    public class DataPoint<T> where T:IValue 
+    public class DataPoint<T> where T:IMeasurement
     {
         /// <summary>
         /// Gets or sets the <see cref="TimeSeries"/> the <see cref="DataPoint{T}"/> belongs to
@@ -17,7 +17,7 @@ namespace Dolittle.TimeSeries.DataTypes
         /// <summary>
         /// Gets or sets the value for the <see cref="DataPoint{T}"/>
         /// </summary>
-        public T Value {  get; set; }
+        public T Measurement {  get; set; }
 
         /// <summary>
         /// Gets or sets <see cref="Timestamp"/>

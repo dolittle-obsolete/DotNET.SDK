@@ -13,12 +13,12 @@ using Dolittle.Types;
 using static Dolittle.TimeSeries.Connectors.Runtime.PullConnectors;
 using System.Threading.Tasks;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
 using Grpc.Core;
 
 namespace Dolittle.TimeSeries.Connectors
 {
-
     /// <summary>
     /// Represents an implementation of <see cref="IPullConnectors"/>
     /// </summary>
@@ -40,7 +40,7 @@ namespace Dolittle.TimeSeries.Connectors
             IInstancesOf<IAmAPullConnector> connectors,
             PullConnectorsConfiguration configuration)
         {
-            _connectors = connectors.ToDictionary(_ => (ConnectorId) Guid.NewGuid(), _ => _);
+            _connectors = connectors.ToDictionary(_ => (ConnectorId)Guid.NewGuid(), _ => _);
             _pullConnectorsClient = pullConnectorsClient;
             _configuration = configuration;
         }
@@ -65,7 +65,7 @@ namespace Dolittle.TimeSeries.Connectors
                     Interval = interval
                 };
 
-                Task.Run(async() =>
+                Task.Run(async () =>
                 {
                     var streamCall = _pullConnectorsClient.Instance.Connect(pullConnector);
 
@@ -74,11 +74,7 @@ namespace Dolittle.TimeSeries.Connectors
                         var pullRequest = streamCall.ResponseStream.Current;
 
                         var result = await _.Value.Pull();
-                        var tagDataPoints = result.Select(t => new DataPoints.Runtime.TagDataPoint
-                        {
-                            Tag = t.Tag,
-                                Value = t.Value.ToProtobuf()
-                        });
+                        var tagDataPoints = result.Select(tagDataPoint => tagDataPoint.ToRuntime());
                         var writeMessage = new WriteMessage
                         {
                             ConnectorId = pullConnector.Id

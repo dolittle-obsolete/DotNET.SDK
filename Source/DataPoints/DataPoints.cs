@@ -15,7 +15,7 @@ namespace Dolittle.TimeSeries.DataPoints
         /// Filter of a specific type of <see cref="DataPoint{T}"/>
         /// </summary>
         /// <returns><see cref="DataPointsOf{T}"/> filter</returns>
-        public static DataPointsOf<T> Of<T>() where T:IValue => new DataPointsOf<T>(new DataPointsOfSpecification<T>());
+        public static DataPointsOf<T> Of<T>() where T:IMeasurement => new DataPointsOf<T>(new DataPointsOfSpecification<T>());
 
     }
 }

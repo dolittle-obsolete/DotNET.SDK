@@ -9,18 +9,18 @@ namespace Dolittle.TimeSeries.DataTypes
     /// <summary>
     /// Represents a measurement
     /// </summary>
-    public class Measurement : Value<Measurement>, IValue
+    public class Single : Value<Single>, IMeasurement
     {
         /// <summary>
-        /// Implicitly convert from the a value of the type the <see cref="Measurement"/> is 
+        /// Implicitly convert from the a value of the type the <see cref="Single"/> is 
         /// for to an instance with the value
         /// </summary>
         /// <param name="value">Value to convert from</param>
         /// <remarks>
-        /// The <see cref="Measurement.Error">error property</see> will be set to 
+        /// The <see cref="Single.Error">error property</see> will be set to 
         /// the 0
         /// </remarks>
-        public static implicit operator Measurement(double value) => new Measurement { Value = value, Error = 0 };
+        public static implicit operator Single(double value) => new Single { Value = value, Error = 0 };
 
         /// <summary>
         /// Gets or sets the value

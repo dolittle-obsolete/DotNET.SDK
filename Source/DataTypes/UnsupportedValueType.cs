@@ -2,6 +2,7 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
+#if(false)
 using System;
 using Dolittle.TimeSeries.DataTypes.Runtime;
 
@@ -20,3 +21,4 @@ namespace Dolittle.TimeSeries.DataTypes
         public UnsupportedValueType(Type type) : base($"Type '{type.AssemblyQualifiedName}' is not a supported value type") {}
     }
 }
+#endif

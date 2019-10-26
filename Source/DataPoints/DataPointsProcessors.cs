@@ -99,55 +99,16 @@ namespace Dolittle.TimeSeries.DataPoints
 
                 try
                 {
-                    var dataPointInstance = Convert(dataPoint);
                     await processor.Invoke(
                             new TimeSeriesMetadata(
                                     dataPoint.TimeSeries.To<TimeSeriesId>()),
-                                    dataPointInstance);
+                                    dataPoint.ToDataPoint()).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
                     _logger.Error(ex, "Error processing datapoint");
                 }
             }
-        }
-
-        object Convert(DataPoint dataPoint)
-        {
-            System.Type valueType = typeof(object);
-            object valueInstance = null;
-            switch (dataPoint.Value.ValueCase)
-            {
-                case Value.ValueOneofCase.MeasurementValue:
-                    {
-                        valueType = typeof(DataTypes.Measurement);
-                        valueInstance = dataPoint.Value.ToMeasurement();
-                    }
-                    break;
-
-                case Value.ValueOneofCase.Vector2Value:
-                    valueType = typeof(DataTypes.Vector2);
-                    valueInstance = dataPoint.Value.ToVector2();
-                    break;
-
-                case Value.ValueOneofCase.Vector3Value:
-                    valueType = typeof(DataTypes.Vector3);
-                    valueInstance = dataPoint.Value.ToVector3();
-                    break;
-            }
-            var dataPointType = typeof(DataPoint<>).MakeGenericType(new [] { valueType });
-            var dataPointInstance = Activator.CreateInstance(dataPointType);
-            var valueProperty = dataPointType.GetProperty("Value", BindingFlags.Instance | BindingFlags.Public);
-            valueProperty.SetValue(dataPointInstance, valueInstance);
-
-            var timestamp = (Timestamp) dataPoint.Timestamp.ToDateTimeOffset();
-            var timestampProperty = dataPointType.GetProperty("Timestamp", BindingFlags.Instance | BindingFlags.Public);
-            timestampProperty.SetValue(dataPointInstance, timestamp);
-
-            var timeSeriesProperty = dataPointType.GetProperty("TimeSeries", BindingFlags.Instance |  BindingFlags.Public);
-            timeSeriesProperty.SetValue(dataPointInstance, dataPoint.TimeSeries.To<TimeSeriesId>());
-
-            return dataPointInstance;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace PullConnector
             var tags = new [] {"first", "second", "third"};
 
             _logger.Information($"Pulling tags '{string.Join(", ", tags.Select(_ => _))}'");
-            return Task.FromResult(tags.Select(_ => new TagDataPoint(_,(Measurement)_random.NextDouble())));
+            return Task.FromResult(tags.Select(_ => new TagDataPoint(_, (Dolittle.TimeSeries.DataTypes.Single)_random.NextDouble())));
         }
     }
 }

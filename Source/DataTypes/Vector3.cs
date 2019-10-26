@@ -9,21 +9,21 @@ namespace Dolittle.TimeSeries.DataTypes
     /// <summary>
     /// Represents a 2 dimensional vector
     /// </summary>
-    public class Vector3 : Value<Vector3>, IValue
+    public class Vector3 : Value<Vector3>, IMeasurement
     {
         /// <summary>
         /// Gets or sets the X component
         /// </summary>
-        public Measurement   X { get; set; }
+        public Single   X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y component
         /// </summary>
-        public Measurement   Y { get; set; }
+        public Single   Y { get; set; }
 
         /// <summary>
         /// Gets or sets the Y component
         /// </summary>
-        public Measurement   Z { get; set; }
+        public Single   Z { get; set; }
     }
 }

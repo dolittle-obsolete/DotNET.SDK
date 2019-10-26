@@ -11,7 +11,7 @@ namespace Dolittle.TimeSeries.DataPoints
     /// Represents a filter for a specific origin
     /// </summary>
     public class OriginOf<T> : Specification<DataPoint<T>>
-        where T:IValue
+        where T:IMeasurement
     {
         /// <summary>
         /// Initializes a new instance of <see cref="OriginOf{T}"/>

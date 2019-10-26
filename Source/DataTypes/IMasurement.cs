@@ -8,5 +8,5 @@ namespace Dolittle.TimeSeries.DataTypes
     /// <summary>
     /// Defines a marker for a value
     /// </summary>
-    public interface IValue {}
+    public interface IMeasurement {}
 }

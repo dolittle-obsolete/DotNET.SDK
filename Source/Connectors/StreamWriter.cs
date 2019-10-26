@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
 using Dolittle.TimeSeries.Connectors.Runtime;
@@ -33,13 +32,8 @@ namespace Dolittle.TimeSeries.Connectors
         public async Task Write(IEnumerable<TagDataPoint> dataPoints)
         {
             var streamTagDataPoints = new StreamTagDataPoints();
-            streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => new DataPoints.Runtime.TagDataPoint
-            {
-                Tag = _.Tag,
-                Value = _.Value.ToProtobuf()
-            }));
-
-            await _serverStreamWriter.WriteAsync(streamTagDataPoints);
+            streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => _.ToRuntime()));
+            await _serverStreamWriter.WriteAsync(streamTagDataPoints).ConfigureAwait(false);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace Dolittle.TimeSeries.DataPoints
         /// Initializes a new instance of <see cref="TagDataPoint"/>
         /// </summary>
         /// <param name="tag"><see cref="Tag"/></param>
-        /// <param name="value"><see cref="IValue"/></param>
-        public TagDataPoint(Tag tag, IValue value)
+        /// <param name="measurement"><see cref="IMeasurement"/></param>
+        public TagDataPoint(Tag tag, IMeasurement measurement)
         {
             Tag = tag;
-            Value = value;
+            Measurement = measurement;
         }
 
         /// <summary>
@@ -30,6 +30,6 @@ namespace Dolittle.TimeSeries.DataPoints
         /// <summary>
         /// Gets or sets the value
         /// </summary>
-        public IValue Value { get; }
+        public IMeasurement Measurement { get; }
     }
 }

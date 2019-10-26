@@ -19,7 +19,7 @@ namespace Dolittle.TimeSeries.DataPoints
         /// <param name="origin"></param>
         /// <returns></returns>
         public static DataPointsOf<TValue> OriginatingFrom<TValue>(this DataPointsOf<TValue> filter, Origin origin)
-            where TValue:IValue
+            where TValue:IMeasurement
         {
             filter.ValueSpecification = filter.ValueSpecification.And(new OriginOf<TValue>(origin));
             return filter;

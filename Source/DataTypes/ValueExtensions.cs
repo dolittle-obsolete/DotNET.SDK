@@ -2,7 +2,9 @@
  *  Copyright (c) Dolittle. All rights reserved.
  *  Licensed under the MIT License. See LICENSE in the project root for license information.
  *--------------------------------------------------------------------------------------------*/
-using Value = Dolittle.TimeSeries.DataTypes.Runtime.Value;
+#if(false)
+using Value = Dolittle.TimeSeries.DataTypes.Runtime.Single;
+
 
 namespace Dolittle.TimeSeries.DataTypes
 {
@@ -20,7 +22,7 @@ namespace Dolittle.TimeSeries.DataTypes
         /// Supported types:
         /// <see cref="Vector2"/>
         /// <see cref="Vector3"/>
-        /// <see cref="Measurement"/>
+        /// <see cref="Single"/>
         /// </remarks>
         public static Value ToProtobuf(this IValue value)
         {
@@ -30,7 +32,7 @@ namespace Dolittle.TimeSeries.DataTypes
                     return v.ToProtobuf();
                 case Vector3 v:
                     return v.ToProtobuf();
-                case Measurement v:
+                case Single v:
                     return new Value { MeasurementValue = v.ToProtobuf() };
             }
             throw new UnsupportedValueType(value.GetType());
@@ -101,13 +103,14 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="Value"/> to <see cref="Measurement"/>
+        /// Convert from a <see cref="Value"/> to <see cref="Single"/>
         /// </summary>
         /// <param name="value"><see cref="Value"/> to convert from</param>
-        /// <returns>Converted <see cref="Measurement"/></returns>
-        public static Measurement ToMeasurement(this Value value)
+        /// <returns>Converted <see cref="Single"/></returns>
+        public static Single ToMeasurement(this Value value)
         {
             return value.MeasurementValue.ToMeasurement();
         }
     }
 }
+#endif
