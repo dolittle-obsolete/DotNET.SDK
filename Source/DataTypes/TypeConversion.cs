@@ -100,7 +100,6 @@ namespace Dolittle.TimeSeries.DataTypes
             };
         }
 
-
         /// <summary>
         /// Convert from a <see cref="DataPoint{T}"/> to <see cref="Runtime.DataPoint"/>
         /// </summary>
