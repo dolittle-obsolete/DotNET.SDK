@@ -81,7 +81,7 @@ namespace Dolittle.TimeSeries.DataPoints
                     Id = _.Id.ToProtobuf()
                 });
 
-                Task.Run(async() => await Process(_, streamingCall.ResponseStream));
+                Task.Run(async () => await Process(_, streamingCall.ResponseStream));
             });
         }
 
@@ -91,18 +91,21 @@ namespace Dolittle.TimeSeries.DataPoints
             return _dataProcessors[id];
         }
 
-        async Task Process(DataPointProcessor processor, IAsyncStreamReader<DataPoint> streamReader)
+        async Task Process(DataPointProcessor processor, IAsyncStreamReader<grpc.DataPoints> streamReader)
         {
             while (await streamReader.MoveNext())
             {
-                var dataPoint = streamReader.Current;
+                var dataPoints = streamReader.Current;
 
                 try
                 {
-                    await processor.Invoke(
-                            new TimeSeriesMetadata(
-                                    dataPoint.TimeSeries.To<TimeSeriesId>()),
-                                    dataPoint.ToDataPoint()).ConfigureAwait(false);
+                    foreach (var dataPoint in dataPoints.DataPoints_)
+                    {
+                        await processor.Invoke(
+                                new TimeSeriesMetadata(
+                                        dataPoint.TimeSeries.To<TimeSeriesId>()),
+                                        dataPoint.ToDataPoint()).ConfigureAwait(false);
+                    }
                 }
                 catch (Exception ex)
                 {
