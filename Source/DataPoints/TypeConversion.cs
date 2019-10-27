@@ -38,5 +38,31 @@ namespace Dolittle.TimeSeries.DataPoints
 
             return converted;
         }
+
+        /// <summary>
+        /// Convert from <see cref="Runtime.TagDataPoint"/> to <see cref="TagDataPoint"/>
+        /// </summary>
+        /// <param name="tagDataPoint"><see cref="Runtime.TagDataPoint"/> to convert from</param>
+        /// <returns>Converted <see cref="TagDataPoint"/></returns>
+        public static TagDataPoint ToTagDataPoint(this Runtime.TagDataPoint tagDataPoint)
+        {
+            var tag = tagDataPoint.Tag;
+            IMeasurement measurement = null;
+
+            switch (tagDataPoint.MeasurementCase)
+            {
+                case Runtime.TagDataPoint.MeasurementOneofCase.SingleValue:
+                    measurement = tagDataPoint.SingleValue.ToSingle();
+                    break;
+                case Runtime.TagDataPoint.MeasurementOneofCase.Vector2Value:
+                    measurement = tagDataPoint.Vector2Value.ToVector2();
+                    break;
+                case Runtime.TagDataPoint.MeasurementOneofCase.Vector3Value:
+                    measurement = tagDataPoint.Vector3Value.ToVector3();
+                    break;
+            }
+
+            return new TagDataPoint(tag, measurement);
+        }
     }
 }
