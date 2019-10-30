@@ -11,9 +11,9 @@ using Dolittle.TimeSeries.Connectors;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
 
-namespace StreamConnector
+namespace PushConnector
 {
-    public class MyConnector : IAmAStreamingConnector
+    public class MyConnector : IAmAPushConnector
     {
         readonly ILogger _logger;
         readonly Random _random;
@@ -24,7 +24,7 @@ namespace StreamConnector
             _random = new Random();
         }
 
-        public Source Name => "MyStreamConnector";
+        public Source Name => "MyPushConnector";
 
         public async Task Connect(IStreamWriter writer)
         {
@@ -34,7 +34,7 @@ namespace StreamConnector
             {
                 for (; ; )
                 {
-                    _logger.Information($"Streaming tags '{string.Join(", ", tags.Select(_ => _))}'");
+                    _logger.Information($"Pushing tags '{string.Join(", ", tags.Select(_ => _))}'");
                     var dataPoints = tags.Select(_ => new TagDataPoint(
                         (Tag)_,
                         //Value = (Measurement<float>)_random.NextDouble()

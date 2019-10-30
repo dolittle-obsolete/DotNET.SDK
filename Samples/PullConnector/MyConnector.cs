@@ -7,10 +7,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Dolittle.Logging;
-using Dolittle.TimeSeries;
 using Dolittle.TimeSeries.Connectors;
 using Dolittle.TimeSeries.DataPoints;
-using Dolittle.TimeSeries.DataTypes;
+using Single = Dolittle.TimeSeries.DataTypes.Single;
 
 namespace PullConnector
 {
@@ -32,7 +31,7 @@ namespace PullConnector
             var tags = new [] {"first", "second", "third"};
 
             _logger.Information($"Pulling tags '{string.Join(", ", tags.Select(_ => _))}'");
-            return Task.FromResult(tags.Select(_ => new TagDataPoint(_, (Dolittle.TimeSeries.DataTypes.Single)_random.NextDouble())));
+            return Task.FromResult(tags.Select(_ => new TagDataPoint(_, (Single)_random.NextDouble())));
         }
     }
 }

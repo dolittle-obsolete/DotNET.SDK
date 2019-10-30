@@ -13,17 +13,17 @@ namespace Dolittle.TimeSeries.Connectors
     public class ConnectorsBootProcedure : ICanPerformBootProcedure
     {
         readonly IPullConnectors _pullConnectors;
-        readonly IStreamConnectors _streamConnectors;
+        readonly IPushConnectors _pushConnectors;
 
         /// <summary>
         /// Initializes a new instance of <see cref="ConnectorsBootProcedure"/>
         /// </summary>
         /// <param name="pullConnectors">System for <see cref="IPullConnectors"/></param>
-        /// <param name="streamConnectors">System for <see cref="IStreamConnectors"/></param>
-        public ConnectorsBootProcedure(IPullConnectors pullConnectors, IStreamConnectors streamConnectors)
+        /// <param name="pushConnectors">System for <see cref="IPushConnectors"/></param>
+        public ConnectorsBootProcedure(IPullConnectors pullConnectors, IPushConnectors pushConnectors)
         {
             _pullConnectors = pullConnectors;
-            _streamConnectors = streamConnectors;
+            _pushConnectors = pushConnectors;
         }        
 
         /// <inheritdoc/>
@@ -33,7 +33,7 @@ namespace Dolittle.TimeSeries.Connectors
         public void Perform()
         {
             _pullConnectors.Register();
-            _streamConnectors.Register();
+            _pushConnectors.Register();
         }
     }
 }

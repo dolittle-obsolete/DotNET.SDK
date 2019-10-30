@@ -76,12 +76,25 @@ namespace Dolittle.TimeSeries.DataPoints
 
             _dataProcessors.Values.ForEach(_ =>
             {
-                var streamingCall = _client.Instance.Open(new grpc.DataPointProcessor
-                {
-                    Id = _.Id.ToProtobuf()
-                });
+                _logger.Information($"Opening data processor {_.Id}");
 
-                Task.Run(async () => await Process(_, streamingCall.ResponseStream));
+                Task.Run(async () =>
+                {
+                    try
+                    {
+                        var streamingCall = _client.Instance.Open(new grpc.DataPointProcessor
+                        {
+                            Id = _.Id.ToProtobuf()
+                        });
+
+                        await Process(_, streamingCall.ResponseStream);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.Error(ex, $"Couldn't open data point processor '{_.Id}'");
+                        Environment.Exit(1);
+                    }
+                });
             });
         }
 

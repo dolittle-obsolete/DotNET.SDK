@@ -5,7 +5,7 @@
 using System.Threading.Tasks;
 using Dolittle.Heads;
 
-namespace StreamConnector
+namespace PushConnector
 {
     class Program
     {

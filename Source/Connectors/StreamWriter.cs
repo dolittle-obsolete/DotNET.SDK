@@ -17,13 +17,13 @@ namespace Dolittle.TimeSeries.Connectors
     /// </summary>
     public class StreamWriter : IStreamWriter
     {
-        readonly IClientStreamWriter<StreamTagDataPoints> _serverStreamWriter;
+        readonly IClientStreamWriter<PushTagDataPoints> _serverStreamWriter;
 
         /// <summary>
         /// Initializes a new instance of <see cref="StreamWriter"/>
         /// </summary>
         /// <param name="clientStreamWriter">The <see cref="IClientStreamWriter{T}">server stream</see> to write to</param>
-        public StreamWriter(IClientStreamWriter<StreamTagDataPoints> clientStreamWriter)
+        public StreamWriter(IClientStreamWriter<PushTagDataPoints> clientStreamWriter)
         {
             _serverStreamWriter = clientStreamWriter;
         }
@@ -31,7 +31,7 @@ namespace Dolittle.TimeSeries.Connectors
         /// <inheritdoc/>
         public async Task Write(IEnumerable<TagDataPoint> dataPoints)
         {
-            var streamTagDataPoints = new StreamTagDataPoints();
+            var streamTagDataPoints = new PushTagDataPoints();
             streamTagDataPoints.DataPoints.Add(dataPoints.Select(_ => _.ToRuntime()));
             await _serverStreamWriter.WriteAsync(streamTagDataPoints).ConfigureAwait(false);
         }

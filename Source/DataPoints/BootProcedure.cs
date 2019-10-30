@@ -23,7 +23,7 @@ namespace Dolittle.TimeSeries.DataPoints
         {
             _processors = processors;
         }
-        
+
         /// <inheritdoc/>
         public bool CanPerform() => Head.Connected;
 

@@ -8,9 +8,9 @@ using Dolittle.TimeSeries.DataPoints;
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Represents a connector type that connects and streams data from the source at the cadence decided by the source
+    /// Represents a connector type that connects and pushes data from the source at the cadence decided by the source
     /// </summary>
-    public interface IAmAStreamingConnector
+    public interface IAmAPushConnector
     {
         /// <summary>
         /// Gets the name of the connector

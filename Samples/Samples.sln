@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataPointsProcessor", "Data
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PullConnector", "PullConnector\PullConnector.csproj", "{D954FF3B-0F3D-44C7-8C4F-39059F9C7C82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StreamConnector", "StreamConnector\StreamConnector.csproj", "{476C13CF-CB7A-4BF4-B329-F51C955B957A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PushConnector", "PushConnector\PushConnector.csproj", "{476C13CF-CB7A-4BF4-B329-F51C955B957A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

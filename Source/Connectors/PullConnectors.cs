@@ -67,20 +67,27 @@ namespace Dolittle.TimeSeries.Connectors
 
                 Task.Run(async () =>
                 {
-                    var streamCall = _pullConnectorsClient.Instance.Connect(pullConnector);
-
-                    while (await streamCall.ResponseStream.MoveNext())
+                    try
                     {
-                        var pullRequest = streamCall.ResponseStream.Current;
+                        var streamCall = _pullConnectorsClient.Instance.Connect(pullConnector);
 
-                        var result = await _.Value.Pull();
-                        var tagDataPoints = result.Select(tagDataPoint => tagDataPoint.ToRuntime());
-                        var writeMessage = new WriteMessage
+                        while (await streamCall.ResponseStream.MoveNext())
                         {
-                            ConnectorId = pullConnector.Id
-                        };
-                        writeMessage.Data.Add(tagDataPoints);
-                        await _pullConnectorsClient.Instance.WriteAsync(writeMessage);
+                            var pullRequest = streamCall.ResponseStream.Current;
+
+                            var result = await _.Value.Pull();
+                            var tagDataPoints = result.Select(tagDataPoint => tagDataPoint.ToRuntime());
+                            var writeMessage = new WriteMessage
+                            {
+                                ConnectorId = pullConnector.Id
+                            };
+                            writeMessage.Data.Add(tagDataPoints);
+                            await _pullConnectorsClient.Instance.WriteAsync(writeMessage);
+                        }
+                    }
+                    catch
+                    {
+                        Environment.Exit(1);
                     }
                 });
             });

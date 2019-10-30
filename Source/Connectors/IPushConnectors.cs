@@ -6,9 +6,9 @@
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Defines a system for working with <see cref="IAmAStreamingConnector"/>
+    /// Defines a system for working with <see cref="IAmAPushConnector"/>
     /// </summary>
-    public interface IStreamConnectors
+    public interface IPushConnectors
     {
         /// <summary>
         /// Register all pull connectors
@@ -19,7 +19,7 @@ namespace Dolittle.TimeSeries.Connectors
         /// Get a <see cref="IAmAPullConnector"/> by its <see cref="ConnectorId"/>
         /// </summary>
         /// <param name="connectorId"><see cref="ConnectorId"/> representing the connector</param>
-        /// <returns>Instance of <see cref="IAmAStreamingConnector"/></returns>
-        IAmAStreamingConnector GetById(ConnectorId connectorId);
+        /// <returns>Instance of <see cref="IAmAPushConnector"/></returns>
+        IAmAPushConnector GetById(ConnectorId connectorId);
     }
 }
