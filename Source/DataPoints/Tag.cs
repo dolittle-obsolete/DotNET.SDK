@@ -4,9 +4,8 @@
  *--------------------------------------------------------------------------------------------*/
 using Dolittle.Concepts;
 
-namespace Dolittle.TimeSeries
+namespace Dolittle.TimeSeries.DataPoints
 {
-
     /// <summary>
     /// Represents the concept of an System
     /// </summary>
@@ -20,5 +19,5 @@ namespace Dolittle.TimeSeries
         {
             return new Tag {Value = value};
         }
-    }    
+    }
 }

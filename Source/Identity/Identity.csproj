@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../Build/MSBuild/default.props" />
+
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <AssemblyName>Dolittle.TimeSeries.Connectors</AssemblyName>
+        <AssemblyName>Dolittle.TimeSeries.Identity</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Dolittle.Common" Version="1.*" />
         <PackageReference Include="Dolittle.SDK.Heads" Version="4.*" />
-        <PackageReference Include="Dolittle.Protobuf" Version="4.*" />
         <PackageReference Include="Dolittle.TimeSeries.Runtime.Contracts" Version="1.*" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="../DataPoints/DataPoints.csproj"/>
-        <ProjectReference Include="../DataTypes/DataTypes.csproj"/>
         <ProjectReference Include="../TimeSeries/TimeSeries.csproj"/>
+        <ProjectReference Include="../DataPoints/DataPoints.csproj"/>
     </ItemGroup>
 
 </Project>
