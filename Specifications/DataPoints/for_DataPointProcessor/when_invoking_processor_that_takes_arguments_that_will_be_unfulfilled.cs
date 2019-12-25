@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -10,6 +9,8 @@ using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
 using Single = Dolittle.TimeSeries.DataTypes.Single;
+
+#pragma warning disable CA1034
 
 namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
 {
@@ -29,19 +30,19 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
 
         static Exception result;
 
-
         Establish context = () =>
         {
             instance = new Mock<Processor>();
             method = typeof(Processor).GetMethod("MyProcessorMethod", BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             processor = new DataPointProcessor(instance.Object, method);
-            data_point = new DataPoint<Single> {
+            data_point = new DataPoint<Single>
+            {
                 Measurement = new Single { Value = 42, Error = 43 }
             };
             metadata = new TimeSeriesMetadata(Guid.NewGuid());
         };
 
-        Because of = () => result = Catch.Exception(() => processor.Invoke(metadata,data_point));
+        Because of = () => result = Catch.Exception(() => processor.Invoke(metadata, data_point));
 
         It should_throw_unfulfilled_arguments_for_data_point_processor = () => result.ShouldBeOfExactType<UnfulfilledArgumentsForDataPointProcessor>();
     }

@@ -1,12 +1,13 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Reflection;
 using System.Threading.Tasks;
 using Machine.Specifications;
 using Moq;
 using It = Machine.Specifications.It;
+
+#pragma warning disable CA1034
 
 namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
 {
@@ -21,7 +22,6 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
         static MethodInfo method;
         static DataPointProcessor processor;
 
-
         Establish context = () =>
         {
             instance = new Mock<Processor>();
@@ -29,10 +29,8 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
             processor = new DataPointProcessor(instance.Object, method);
         };
 
-        Because of = () => processor.Invoke(null,null);
+        Because of = () => processor.Invoke(null, null);
 
         It should_invoke_the_processor = () => instance.Verify(_ => _.MyProcessorMethod(), Moq.Times.Once());
     }
-
-
 }

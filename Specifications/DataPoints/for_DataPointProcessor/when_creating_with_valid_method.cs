@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Reflection;
 using System.Threading.Tasks;
 using Machine.Specifications;
@@ -10,7 +9,7 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
 {
     public class when_creating_with_valid_method
     {
-        class Processor : ICanProcessDataPoints
+        internal class Processor : ICanProcessDataPoints
         {
             Task MyProcessorMethod()
             {
@@ -33,5 +32,4 @@ namespace Dolittle.TimeSeries.DataPoints.for_DataPointProcessor
         It set_instance_on_processor = () => result.Processor.ShouldEqual(instance);
         It set_method_on_processor = () => result.Method.ShouldEqual(method);
     }
-
 }
