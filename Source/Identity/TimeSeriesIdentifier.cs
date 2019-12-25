@@ -1,7 +1,6 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System.Collections.Generic;
 using Dolittle.Heads;
 using Dolittle.Protobuf;
@@ -12,16 +11,16 @@ using static Dolittle.TimeSeries.Identity.Runtime.TimeSeriesMapIdentifier;
 namespace Dolittle.TimeSeries.Identity
 {
     /// <summary>
-    /// Represents an implementation of <see cref="ITimeSeriesIdentifier"/>
+    /// Represents an implementation of <see cref="ITimeSeriesIdentifier"/>.
     /// </summary>
     public class TimeSeriesIdentifier : ITimeSeriesIdentifier
     {
         private readonly IClientFor<TimeSeriesMapIdentifierClient> _timeSeriesMapIdentifierClient;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="TimeSeriesIdentifier"/>
+        /// Initializes a new instance of the <see cref="TimeSeriesIdentifier"/> class.
         /// </summary>
-        /// <param name="timeSeriesMapIdentifierClient"><see cref="IClientFor{T}"/> <see cref="TimeSeriesMapIdentifierClient"/></param>
+        /// <param name="timeSeriesMapIdentifierClient"><see cref="IClientFor{T}"/> <see cref="TimeSeriesMapIdentifierClient"/>.</param>
         public TimeSeriesIdentifier(IClientFor<TimeSeriesMapIdentifierClient> timeSeriesMapIdentifierClient)
         {
             _timeSeriesMapIdentifierClient = timeSeriesMapIdentifierClient;
@@ -45,7 +44,7 @@ namespace Dolittle.TimeSeries.Identity
             {
                 Source = source,
             };
-            foreach( (var tag, var timeSeriesId) in map )
+            foreach ((var tag, var timeSeriesId) in map)
             {
                 timeSeriesMap.TagToTimeSeriesId[tag] = timeSeriesId.ToProtobuf();
             }
