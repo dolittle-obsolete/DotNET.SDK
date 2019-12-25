@@ -1,15 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../specs.props" />
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <AssemblyName>Dolittle.TimeSeries.DataTypes.Specs</AssemblyName>
-  </PropertyGroup>
+    <PropertyGroup>
+        <AssemblyName>Dolittle.TimeSeries.DataTypes.Specs</AssemblyName>
+    </PropertyGroup>
 
-  <Import Project="../../Build/MSBuild/specs.props"></Import>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Source\DataTypes\DataTypes.csproj" />
-  </ItemGroup>
-
-
+    <ItemGroup>
+        <ProjectReference Include="..\..\Source\DataTypes\DataTypes.csproj" />
+    </ItemGroup>
 </Project>
