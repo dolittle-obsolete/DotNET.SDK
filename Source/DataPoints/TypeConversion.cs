@@ -1,21 +1,20 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.TimeSeries.DataTypes;
 
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Extension methods for conversion of types
+    /// Extension methods for conversion of types.
     /// </summary>
     public static class TypeConversion
     {
         /// <summary>
-        /// Convert from <see cref="TagDataPoint"/> to <see cref="Runtime.TagDataPoint"/>
+        /// Convert from <see cref="TagDataPoint"/> to <see cref="Runtime.TagDataPoint"/>.
         /// </summary>
-        /// <param name="tagDataPoint"><see cref="TagDataPoint"/> to convert from</param>
-        /// <returns>Converted <see cref="Runtime.TagDataPoint"/></returns>
+        /// <param name="tagDataPoint"><see cref="TagDataPoint"/> to convert from.</param>
+        /// <returns>Converted <see cref="Runtime.TagDataPoint"/>.</returns>
         public static Runtime.TagDataPoint ToRuntime(this TagDataPoint tagDataPoint)
         {
             var converted = new Runtime.TagDataPoint
@@ -40,10 +39,10 @@ namespace Dolittle.TimeSeries.DataPoints
         }
 
         /// <summary>
-        /// Convert from <see cref="Runtime.TagDataPoint"/> to <see cref="TagDataPoint"/>
+        /// Convert from <see cref="Runtime.TagDataPoint"/> to <see cref="TagDataPoint"/>.
         /// </summary>
-        /// <param name="tagDataPoint"><see cref="Runtime.TagDataPoint"/> to convert from</param>
-        /// <returns>Converted <see cref="TagDataPoint"/></returns>
+        /// <param name="tagDataPoint"><see cref="Runtime.TagDataPoint"/> to convert from.</param>
+        /// <returns>Converted <see cref="TagDataPoint"/>.</returns>
         public static TagDataPoint ToTagDataPoint(this Runtime.TagDataPoint tagDataPoint)
         {
             var tag = tagDataPoint.Tag;

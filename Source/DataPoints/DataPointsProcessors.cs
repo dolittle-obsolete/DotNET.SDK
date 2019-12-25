@@ -1,19 +1,17 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Dolittle.Heads;
 using Dolittle.Collections;
+using Dolittle.Heads;
 using Dolittle.Lifecycle;
 using Dolittle.Logging;
 using Dolittle.Protobuf;
 using Dolittle.TimeSeries.DataTypes;
-using Dolittle.TimeSeries.DataTypes.Runtime;
 using Dolittle.Types;
 using Grpc.Core;
 using static Dolittle.TimeSeries.DataPoints.Runtime.DataPointProcessors;
@@ -22,7 +20,7 @@ using grpc = Dolittle.TimeSeries.DataPoints.Runtime;
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IDataPointsProcessors"/>
+    /// Represents an implementation of <see cref="IDataPointsProcessors"/>.
     /// </summary>
     [Singleton]
     public class DataPointsProcessors : IDataPointsProcessors
@@ -33,11 +31,11 @@ namespace Dolittle.TimeSeries.DataPoints
         readonly IClientFor<DataPointProcessorsClient> _client;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="DataPointsProcessors"/>
+        /// Initializes a new instance of the <see cref="DataPointsProcessors"/> class.
         /// </summary>
-        /// <param name="processors">Instances of <see cref="ICanProcessDataPoints">processors</see></param>
-        /// <param name="client"><see cref="IClientFor{T}">Client</see> for <see cref="DataPointProcessorsClient"/></param>
-        /// <param name="logger"><see cref="ILogger"/> for logging</param>
+        /// <param name="processors">Instances of <see cref="ICanProcessDataPoints">processors</see>.</param>
+        /// <param name="client"><see cref="IClientFor{T}">Client</see> for <see cref="DataPointProcessorsClient"/>.</param>
+        /// <param name="logger"><see cref="ILogger"/> for logging.</param>
         public DataPointsProcessors(
             IInstancesOf<ICanProcessDataPoints> processors,
             IClientFor<DataPointProcessorsClient> client,
@@ -46,27 +44,6 @@ namespace Dolittle.TimeSeries.DataPoints
             _processors = processors;
             _logger = logger;
             _client = client;
-        }
-
-        void Discover()
-        {
-            _processors.ForEach(_ =>
-            {
-                var methods = _.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
-                var processorMethods = methods.Where(method => method.GetCustomAttributes().Any(attribute => attribute is DataPointProcessorAttribute));
-                if (processorMethods.Count() == 0)
-                {
-                    _logger.Warning($"DataPoint processor of type '{_.GetType().AssemblyQualifiedName}' does not seem to have any methods adorned with [DataPointProcessor] - this means it does not have any processors");
-                }
-                else
-                {
-                    processorMethods.ForEach(method =>
-                    {
-                        var processor = new DataPointProcessor(_, method);
-                        _dataProcessors[processor.Id] = processor;
-                    });
-                }
-            });
         }
 
         /// <inheritdoc/>
@@ -87,7 +64,7 @@ namespace Dolittle.TimeSeries.DataPoints
                             Id = _.Id.ToProtobuf()
                         });
 
-                        await Process(_, streamingCall.ResponseStream);
+                        await Process(_, streamingCall.ResponseStream).ConfigureAwait(false);
                     }
                     catch (Exception ex)
                     {
@@ -106,7 +83,7 @@ namespace Dolittle.TimeSeries.DataPoints
 
         async Task Process(DataPointProcessor processor, IAsyncStreamReader<grpc.DataPoints> streamReader)
         {
-            while (await streamReader.MoveNext())
+            while (await streamReader.MoveNext().ConfigureAwait(false))
             {
                 var dataPoints = streamReader.Current;
 
@@ -114,10 +91,7 @@ namespace Dolittle.TimeSeries.DataPoints
                 {
                     foreach (var dataPoint in dataPoints.DataPoints_)
                     {
-                        await processor.Invoke(
-                                new TimeSeriesMetadata(
-                                        dataPoint.TimeSeries.To<TimeSeriesId>()),
-                                        dataPoint.ToDataPoint()).ConfigureAwait(false);
+                        await processor.Invoke(new TimeSeriesMetadata(dataPoint.TimeSeries.To<TimeSeriesId>()), dataPoint.ToDataPoint()).ConfigureAwait(false);
                     }
                 }
                 catch (Exception ex)
@@ -125,6 +99,27 @@ namespace Dolittle.TimeSeries.DataPoints
                     _logger.Error(ex, "Error processing datapoint");
                 }
             }
+        }
+
+        void Discover()
+        {
+            _processors.ForEach(_ =>
+            {
+                var methods = _.GetType().GetMethods(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+                var processorMethods = methods.Where(method => method.GetCustomAttributes().Any(attribute => attribute is DataPointProcessorAttribute));
+                if (!processorMethods.Any())
+                {
+                    _logger.Warning($"DataPoint processor of type '{_.GetType().AssemblyQualifiedName}' does not seem to have any methods adorned with [DataPointProcessor] - this means it does not have any processors");
+                }
+                else
+                {
+                    processorMethods.ForEach(method =>
+                    {
+                        var processor = new DataPointProcessor(_, method);
+                        _dataProcessors[processor.Id] = processor;
+                    });
+                }
+            });
         }
     }
 }
