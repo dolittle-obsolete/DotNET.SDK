@@ -1,21 +1,20 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using Dolittle.Concepts;
 
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Defines the concept of a unique identifier for any type of connectors
+    /// Defines the concept of a unique identifier for any type of connectors.
     /// </summary>
     public class ConnectorId : ConceptAs<Guid>
     {
         /// <summary>
-        /// Implicitly convert from <see cref="Guid"/> to <see cref="ConnectorId"/>
+        /// Implicitly convert from <see cref="Guid"/> to <see cref="ConnectorId"/>.
         /// </summary>
-        /// <param name="value"><see cref="ConnectorId"/> as <see cref="Guid"/></param>
+        /// <param name="value"><see cref="ConnectorId"/> as <see cref="Guid"/>.</param>
         public static implicit operator ConnectorId(Guid value) => new ConnectorId { Value = value };
     }
 }

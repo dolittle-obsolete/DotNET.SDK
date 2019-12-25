@@ -1,26 +1,25 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Dolittle.Heads;
-using Dolittle.Collections;
-using Dolittle.Lifecycle;
-using Dolittle.TimeSeries.Connectors.Runtime;
-using Dolittle.Types;
-using static Dolittle.TimeSeries.Connectors.Runtime.PullConnectors;
 using System.Threading.Tasks;
+using Dolittle.Collections;
+using Dolittle.Heads;
+using Dolittle.Lifecycle;
 using Dolittle.Protobuf;
+using Dolittle.TimeSeries.Connectors.Runtime;
 using Dolittle.TimeSeries.DataPoints;
 using Dolittle.TimeSeries.DataTypes;
+using Dolittle.Types;
 using Grpc.Core;
+using static Dolittle.TimeSeries.Connectors.Runtime.PullConnectors;
 
 namespace Dolittle.TimeSeries.Connectors
 {
     /// <summary>
-    /// Represents an implementation of <see cref="IPullConnectors"/>
+    /// Represents an implementation of <see cref="IPullConnectors"/>.
     /// </summary>
     [Singleton]
     public class PullConnectors : IPullConnectors
@@ -30,11 +29,11 @@ namespace Dolittle.TimeSeries.Connectors
         readonly PullConnectorsConfiguration _configuration;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="PullConnectors"/>
+        /// Initializes a new instance of the <see cref="PullConnectors"/> class.
         /// </summary>
-        /// <param name="pullConnectorsClient"><see cref="IClientFor{T}">client for</see> <see cref="PullConnectorsClient"/> for connecting to runtime</param>
-        /// <param name="connectors">Instances of <see cref="IAmAPullConnector"/></param>
-        /// <param name="configuration"><see cref="PullConnectorsConfiguration"/> for configuring pull connectors</param>
+        /// <param name="pullConnectorsClient"><see cref="IClientFor{T}">client for</see> <see cref="PullConnectorsClient"/> for connecting to runtime.</param>
+        /// <param name="connectors">Instances of <see cref="IAmAPullConnector"/>.</param>
+        /// <param name="configuration"><see cref="PullConnectorsConfiguration"/> for configuring pull connectors.</param>
         public PullConnectors(
             IClientFor<PullConnectorsClient> pullConnectorsClient,
             IInstancesOf<IAmAPullConnector> connectors,
@@ -71,11 +70,11 @@ namespace Dolittle.TimeSeries.Connectors
                     {
                         var streamCall = _pullConnectorsClient.Instance.Connect(pullConnector);
 
-                        while (await streamCall.ResponseStream.MoveNext())
+                        while (await streamCall.ResponseStream.MoveNext().ConfigureAwait(false))
                         {
                             var pullRequest = streamCall.ResponseStream.Current;
 
-                            var result = await _.Value.Pull();
+                            var result = await _.Value.Pull().ConfigureAwait(false);
                             var tagDataPoints = result.Select(tagDataPoint => tagDataPoint.ToRuntime());
                             var writeMessage = new WriteMessage
                             {
