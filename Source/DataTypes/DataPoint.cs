@@ -1,27 +1,28 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// Represents a datapoint in a <see cref="TimeSeries"/>
+    /// Represents a datapoint in a <see cref="TimeSeries"/>.
     /// </summary>
-    public class DataPoint<T> where T:IMeasurement
+    /// <typeparam name="TValue">Type of <see cref="IMeasurement">measurement</see> for the <see cref="DataPoint{T}"/>.</typeparam>
+    public class DataPoint<TValue>
+        where TValue : IMeasurement
     {
         /// <summary>
-        /// Gets or sets the <see cref="TimeSeries"/> the <see cref="DataPoint{T}"/> belongs to
+        /// Gets or sets the <see cref="TimeSeries"/> the <see cref="DataPoint{T}"/> belongs to.
         /// </summary>
-        public TimeSeriesId TimeSeries {  get; set; }
+        public TimeSeriesId TimeSeries { get; set; }
 
         /// <summary>
-        /// Gets or sets the value for the <see cref="DataPoint{T}"/>
+        /// Gets or sets the value for the <see cref="DataPoint{T}"/>.
         /// </summary>
-        public T Measurement {  get; set; }
+        public TValue Measurement { get; set; }
 
         /// <summary>
-        /// Gets or sets <see cref="Timestamp"/>
+        /// Gets or sets <see cref="Timestamp"/>.
         /// </summary>
-        public Timestamp Timestamp {  get; set; }
+        public Timestamp Timestamp { get; set; }
     }
 }

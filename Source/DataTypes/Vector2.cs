@@ -1,18 +1,17 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+
 using Dolittle.Concepts;
 
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// Represents a 2 dimensional vector
+    /// Represents a 2 dimensional vector.
     /// </summary>
     public class Vector2 : Value<Vector2>, IMeasurement
     {
         /// <summary>
-        /// Initializes a new instance of <see cref="Vector2"/>
+        /// Initializes a new instance of the <see cref="Vector2"/> class.
         /// </summary>
         public Vector2()
         {
@@ -21,13 +20,13 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Gets or sets the X component
+        /// Gets or sets the X component.
         /// </summary>
-        public Single   X { get; set; }
+        public Single X { get; set; }
 
         /// <summary>
-        /// Gets or sets the Y component
+        /// Gets or sets the Y component.
         /// </summary>
-        public Single   Y { get; set; }
+        public Single Y { get; set; }
     }
 }

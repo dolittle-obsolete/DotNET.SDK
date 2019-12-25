@@ -1,7 +1,5 @@
-/*---------------------------------------------------------------------------------------------
- *  Copyright (c) Dolittle. All rights reserved.
- *  Licensed under the MIT License. See LICENSE in the project root for license information.
- *--------------------------------------------------------------------------------------------*/
+// Copyright (c) Dolittle. All rights reserved.
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 using System;
 using System.Reflection;
@@ -10,15 +8,15 @@ using Dolittle.Protobuf;
 namespace Dolittle.TimeSeries.DataTypes
 {
     /// <summary>
-    /// Extension methods for conversion of types
+    /// Extension methods for conversion of types.
     /// </summary>
     public static class TypeConversion
     {
         /// <summary>
-        /// Convert supported primitive types of <see cref="Single"/> to <see cref="Single"/>
+        /// Convert from <see cref="Single"/> to <see cref="Runtime.Single"/>.
         /// </summary>
-        /// <param name="measurement"><see cref="Single"/> to convert from</param>
-        /// <returns>Converted <see cref="Runtime.Single"/></returns>
+        /// <param name="measurement"><see cref="Single"/> to convert from.</param>
+        /// <returns>Converted <see cref="Runtime.Single"/>.</returns>
         public static Runtime.Single ToRuntime(this Single measurement)
         {
             return new Runtime.Single
@@ -29,24 +27,24 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert a protobuf <see cref="Runtime.Single"/> to a <see cref="Single"/> of supported primitive types
+        /// Convert from <see cref="Runtime.Single"/> to <see cref="Single"/>.
         /// </summary>
-        /// <param name="single"><see cref="Runtime.Single"/> to convert from</param>
-        /// <returns>Converted <see cref="Single"/></returns>
-        public static Single ToSingle(this Runtime.Single single)
+        /// <param name="measurement"><see cref="Runtime.Single"/> to convert from.</param>
+        /// <returns>Converted <see cref="Single"/>.</returns>
+        public static Single ToSingle(this Runtime.Single measurement)
         {
             return new Single
             {
-                Value = single.Value,
-                Error = single.Error
+                Value = measurement.Value,
+                Error = measurement.Error
             };
         }
 
         /// <summary>
-        /// Convert a <see cref="Vector2"/> to <see cref="Runtime.Vector2"/>
+        /// Convert from <see cref="Vector2"/> to <see cref="Runtime.Vector2"/>.
         /// </summary>
-        /// <param name="vector2"><see cref="Vector2"/> to convert from</param>
-        /// <returns>Converted <see cref="Runtime.Vector2"/></returns>
+        /// <param name="vector2"><see cref="Vector2"/> to convert from.</param>
+        /// <returns>Converted <see cref="Runtime.Vector2"/>.</returns>
         public static Runtime.Vector2 ToRuntime(this Vector2 vector2)
         {
             return new Runtime.Vector2
@@ -57,10 +55,10 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert a <see cref="Runtime.Vector2"/> to <see cref="Vector2"/>
+        /// Convert from <see cref="Runtime.Vector2"/> to <see cref="Vector2"/>.
         /// </summary>
-        /// <param name="vector2"><see cref="Runtime.Vector2"/> to convert from</param>
-        /// <returns>Converted <see cref="Vector2"/></returns>
+        /// <param name="vector2"><see cref="Runtime.Vector2"/> to convert from.</param>
+        /// <returns>Converted <see cref="Vector2"/>.</returns>
         public static Vector2 ToVector2(this Runtime.Vector2 vector2)
         {
             return new Vector2
@@ -71,10 +69,10 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert a <see cref="Vector3"/> to <see cref="Runtime.Vector3"/>
+        /// Convert from <see cref="Vector3"/> to <see cref="Runtime.Vector3"/>.
         /// </summary>
-        /// <param name="vector3"><see cref="Vector3"/> to convert from</param>
-        /// <returns>Converted <see cref="Runtime.Vector3"/></returns>
+        /// <param name="vector3"><see cref="Vector3"/> to convert from.</param>
+        /// <returns>Converted <see cref="Runtime.Vector3"/>.</returns>
         public static Runtime.Vector3 ToRuntime(this Vector3 vector3)
         {
             return new Runtime.Vector3
@@ -86,10 +84,10 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert a <see cref="Runtime.Vector2"/> to <see cref="Vector2"/>
+        /// Convert from <see cref="Runtime.Vector3"/> to <see cref="Vector3"/>.
         /// </summary>
-        /// <param name="vector3"><see cref="Runtime.Vector3"/> to convert from</param>
-        /// <returns>Converted <see cref="Vector3"/></returns>
+        /// <param name="vector3"><see cref="Runtime.Vector3"/> to convert from.</param>
+        /// <returns>Converted <see cref="Vector3"/>.</returns>
         public static Vector3 ToVector3(this Runtime.Vector3 vector3)
         {
             return new Vector3
@@ -101,11 +99,13 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="DataPoint{T}"/> to <see cref="Runtime.DataPoint"/>
+        /// Convert from <see cref="DataPoint{T}"/> to <see cref="Runtime.DataPoint"/>.
         /// </summary>
-        /// <param name="dataPoint"><see cref="DataPoint{T}"/> to convert from</param>
-        /// <returns>Converted <see cref="Runtime.DataPoint"/></returns>
-        public static Runtime.DataPoint ToRuntime<T>(this DataPoint<T> dataPoint) where T:IMeasurement
+        /// <typeparam name="TValue">Type of <see cref="IMeasurement">measurement</see> for the <see cref="DataPoint{T}"/>.</typeparam>
+        /// <param name="dataPoint"><see cref="DataPoint{T}"/> to convert from.</param>
+        /// <returns>Converted <see cref="Runtime.DataPoint"/>.</returns>
+        public static Runtime.DataPoint ToRuntime<TValue>(this DataPoint<TValue> dataPoint)
+            where TValue : IMeasurement
         {
             var converted = new Runtime.DataPoint
             {
@@ -130,43 +130,42 @@ namespace Dolittle.TimeSeries.DataTypes
         }
 
         /// <summary>
-        /// Convert from a <see cref="Runtime.DataPoint"/> to <see cref="DataPoint{T}"/>
+        /// Convert from <see cref="Runtime.DataPoint"/> to <see cref="DataPoint{T}"/>.
         /// </summary>
-        /// <param name="dataPoint"><see cref="Runtime.DataPoint"/> to convert from</param>
-        /// <returns>Converted <see cref="DataPoint{T}"/></returns>
+        /// <param name="dataPoint"><see cref="Runtime.DataPoint"/> to convert from.</param>
+        /// <returns>Converted <see cref="DataPoint{T}"/> represented as <see cref="object"/>.</returns>
         public static object ToDataPoint(this Runtime.DataPoint dataPoint)
         {
-            System.Type valueType = typeof(object);
+            Type valueType = typeof(object);
             object valueInstance = null;
             switch (dataPoint.MeasurementCase)
             {
                 case Runtime.DataPoint.MeasurementOneofCase.SingleValue:
-                    {
-                        valueType = typeof(DataTypes.Single);
-                        valueInstance = dataPoint.SingleValue.ToSingle();
-                    }
+                    valueType = typeof(Single);
+                    valueInstance = dataPoint.SingleValue.ToSingle();
                     break;
 
                 case Runtime.DataPoint.MeasurementOneofCase.Vector2Value:
-                    valueType = typeof(DataTypes.Vector2);
+                    valueType = typeof(Vector2);
                     valueInstance = dataPoint.Vector2Value.ToVector2();
                     break;
 
                 case Runtime.DataPoint.MeasurementOneofCase.Vector3Value:
-                    valueType = typeof(DataTypes.Vector3);
+                    valueType = typeof(Vector3);
                     valueInstance = dataPoint.Vector3Value.ToVector3();
                     break;
             }
-            var dataPointType = typeof(DataPoint<>).MakeGenericType(new [] { valueType });
+
+            var dataPointType = typeof(DataPoint<>).MakeGenericType(new[] { valueType });
             var dataPointInstance = Activator.CreateInstance(dataPointType);
             var valueProperty = dataPointType.GetProperty("Measurement", BindingFlags.Instance | BindingFlags.Public);
             valueProperty.SetValue(dataPointInstance, valueInstance);
 
-            var timestamp = (Timestamp) dataPoint.Timestamp.ToDateTimeOffset();
+            var timestamp = (Timestamp)dataPoint.Timestamp.ToDateTimeOffset();
             var timestampProperty = dataPointType.GetProperty("Timestamp", BindingFlags.Instance | BindingFlags.Public);
             timestampProperty.SetValue(dataPointInstance, timestamp);
 
-            var timeSeriesProperty = dataPointType.GetProperty("TimeSeries", BindingFlags.Instance |  BindingFlags.Public);
+            var timeSeriesProperty = dataPointType.GetProperty("TimeSeries", BindingFlags.Instance | BindingFlags.Public);
             timeSeriesProperty.SetValue(dataPointInstance, dataPoint.TimeSeries.To<TimeSeriesId>());
 
             return dataPointInstance;
