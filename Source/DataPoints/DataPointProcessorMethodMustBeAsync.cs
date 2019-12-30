@@ -7,7 +7,7 @@ using System.Reflection;
 namespace Dolittle.TimeSeries.DataPoints
 {
     /// <summary>
-    /// Exception that gets thrown if a data point processor method is not async.
+    /// Exception that gets thrown when a data point processor method is not async.
     /// </summary>
     public class DataPointProcessorMethodMustBeAsync : Exception
     {

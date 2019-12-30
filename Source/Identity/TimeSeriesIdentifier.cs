@@ -15,7 +15,7 @@ namespace Dolittle.TimeSeries.Identity
     /// </summary>
     public class TimeSeriesIdentifier : ITimeSeriesIdentifier
     {
-        private readonly IClientFor<TimeSeriesMapIdentifierClient> _timeSeriesMapIdentifierClient;
+        readonly IClientFor<TimeSeriesMapIdentifierClient> _timeSeriesMapIdentifierClient;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TimeSeriesIdentifier"/> class.

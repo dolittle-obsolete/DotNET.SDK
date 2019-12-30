@@ -24,7 +24,7 @@ namespace Dolittle.TimeSeries.Connectors
     {
         readonly IDictionary<ConnectorId, IAmAPushConnector> _connectors;
         readonly IClientFor<PushConnectorsClient> _pushConnectorsClient;
-        private readonly ILogger _logger;
+        readonly ILogger _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PushConnectors"/> class.
